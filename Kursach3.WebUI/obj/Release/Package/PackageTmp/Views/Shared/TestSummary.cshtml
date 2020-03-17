@@ -1,0 +1,19 @@
+﻿@model Kursach3.WebUI.Models.TestSummaryViewModel
+
+<div class="well">
+    <h3>
+        <span><strong>@Model.Test.Theme</strong></span>
+        <span class="lead">@Model.questions.Count.ToString("Всего вопросов: # ")</span>
+
+    </h3>
+
+    <span class="lead">@Model.Test.Description</span>
+
+    <p class="lead">@Model.Test.Category @Model.Test.Course.ToString("# класс")</p>
+    @using (Html.BeginForm("Testing", "Testing"))
+    {
+        @Html.Hidden("TestID", Model.Test.Id)
+        //@Html.HiddenFor(x => x.Test.Id)
+        <input class="btn btn-block btn-default btn-lg" type="submit" value="Пройти" />
+    }
+</div>

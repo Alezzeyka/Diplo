@@ -1,0 +1,44 @@
+﻿@using Kursach3.WebUI.Models
+@{
+@model TestResultViewModel
+    Layout = "~/Views/Shared/_TestingLayout.cshtml";
+    int NumOfQ = Convert.ToInt32(ViewBag.Questions);
+    int Correct = Convert.ToInt32(ViewBag.Correct);
+    int Id = Convert.ToInt32(ViewBag.TestID);
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>TestResult</title>
+</head>
+<body>
+    <div class="well text-center">
+        @if (Correct >= NumOfQ)
+        {
+            <h1>Поздровляем!</h1>
+            <h3>Вы успешно прошли тест "@ViewBag.TestTheme" и ответили правильно на все @NumOfQ из @NumOfQ вопросов!</h3>
+        }
+        else
+        {
+            <h1>Неплохо!</h1>
+            <h3>Хоть Вы и не прошли тест "@ViewBag.TestTheme", но ответили правильно на @Correct из @NumOfQ вопросов!</h3>
+            <h2>Пробуйте больше, и у вас все получится!</h2>
+            
+        }
+    <div>
+        <div>
+            @using (Html.BeginForm("Testing", "Testing"))
+            {
+                @Html.Hidden("TestID", Id)
+                //@Html.HiddenFor(x => x.Test.Id)
+                <input class="btn btn-block btn-success btn-lg" type="submit" value="Пройти еще раз" />
+            }
+        </div>
+        @Html.ActionLink("Главная", "List", "Test", null,
+   new { @class = "btn btn-block btn-default btn-lg" })
+    </div>
+    </div>
+</body>
+</html>

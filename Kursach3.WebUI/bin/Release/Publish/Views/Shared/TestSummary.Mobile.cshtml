@@ -1,0 +1,22 @@
+﻿
+@model Kursach3Domain.Entities.TestPreview
+
+<div data-role="collapsible" data-collapsed="false" data-content-theme="c">
+    <h2>@Model.Theme</h2>
+    <div>
+        <div>
+            @Model.Description
+        </div>
+        <div>
+            <strong>(@Model.Course.ToString("# класс"))</strong>
+        </div>
+        <div>
+            @using (Html.BeginForm("Testing", "Testing"))
+            {
+                @Html.Hidden("TestID", Model.Id)
+                //@Html.HiddenFor(x => x.Test.Id)
+                <input class="btn btn-block btn-default btn-lg" type="submit" value="Пройти" />
+            }
+        </div>
+    </div>
+</div>

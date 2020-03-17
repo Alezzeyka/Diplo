@@ -1,0 +1,49 @@
+﻿@model Kursach3Domain.Entities.TestPreview
+@{
+    ViewBag.Title = "Админ панель: редактирование теста";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+    <div class="panel">
+        <div class="panel-heading">
+            <h3>Редактирование теста «@Model.Theme»</h3>
+        </div>
+
+        @using (Html.BeginForm("Edit", "Admin",FormMethod.Post))
+        {
+            @Html.ValidationSummary();
+            <div class="panel-body">
+                @Html.Hidden("ID", Model.Id)
+                @foreach (var property in ViewData.ModelMetadata.Properties)
+                {
+                    if ((property.PropertyName != "Id") && (property.PropertyName != "Questions"))
+                    {
+                        <div class="form-group">
+                            <label>@(property.DisplayName ?? property.PropertyName)</label>
+                            @if (property.PropertyName == "Description")
+                            {
+                                @Html.TextArea(property.PropertyName, null,
+                                    new { @class = "form-control", rows = 5 })
+                            }
+                            else
+                            {
+                                @Html.TextBox(property.PropertyName, null,
+                                    new { @class = "form-control" })
+                            }
+                            @Html.ValidationMessage(property.PropertyName)
+                        </div>
+                    }
+                }
+            </div>
+            <div class="panel-footer">
+                <input type="submit" value="Сохранить" class="btn btn-primary btn-lg" />
+                @Html.ActionLink("Отменить изменения и вернуться к списку", "Index", null, new { @class = "btn btn-warning btn-lg" })
+            </div>
+        }
+    </div>
+    <div class="navbar navbar-default navbar-fixed-bottom">
+        <div class="container">
+            <p class="navbar-text pull-right">
+                © Alex Sh. @DateTime.Now.Year.ToString()
+            </p>
+        </div>
+    </div>

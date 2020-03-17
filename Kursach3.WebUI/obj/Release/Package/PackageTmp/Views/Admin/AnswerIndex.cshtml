@@ -1,0 +1,50 @@
+﻿@using Kursach3.WebUI.Models
+@using Kursach3Domain.Entities
+@model AnswersIndexViewModel
+
+@{
+    ViewBag.Title = "Админ панель: ответы";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    int Delete = 1;
+}
+<h3>Список тестов</h3>
+<div class="panel-body">
+    <table class="table table-striped table-condensed table-bordered">
+        <tr>
+            <th class="text-right">ID</th>
+            <th>форма ответа</th>
+            <th class="text-right">Вопрос</th>
+            <th class="text-right">Правильность</th>
+            <th class="text-center">Действия</th>
+        </tr>
+        @foreach (var item in Model.Answers)
+        {
+    <tr>
+        <td class="text-right">@item.Id</td>
+        <td>
+            @item.Answer
+        </td>
+        <td class="text-right">@item.QuestionID.ToString("вопрос №#")</td>
+        <td class="text-right">@item.IsCorrect</td>
+        <td class="text-center" style="width:150px">
+            @Html.ActionLink("Изменить", "EditAnswer", new { item.Id },new{@class = "btn btn-block btn-default btn-lg"})
+            @Html.ActionLink("Удалить", "EditAnswer", new { item.Id,Delete },new{@class = "btn btn-block btn-danger btn-lg"})
+        </td>
+    </tr>
+        }
+    </table>
+</div>
+<div class="navbar navbar-default navbar-fixed-bottom">
+    <div class="container">
+        @Html.ActionLink("Главная", "List", "Test", null,
+        new { @class = "btn btn-default btn-lg" })
+        @if (Model.QuestionID != 0)
+        {@Html.ActionLink("Добавить ответ", "CreateAnswer", new { Model.QuestionID }, new { @class = "btn btn-default btn-lg" })}
+        @Html.ActionLink("Все ответы", "AnswerIndex", null, new { @class = "btn btn-default btn-lg" })
+        @Html.ActionLink("Назад", "IndexQuestion", new { Model.QuestionID }, new { @class = "btn btn-warning btn-lg" })
+        <p class="navbar-text pull-right">
+            © Alex Sh. @DateTime.Now.Year.ToString()
+        </p>
+    </div>
+</div>
+

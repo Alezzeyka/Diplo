@@ -1,0 +1,25 @@
+﻿@model Kursach3.WebUI.Models.TestSummaryViewModel
+    <div class="well">
+        @if (Model.Test.ImageData != null)
+        {
+            <div class="pull-left" style="margin-right: 10px">
+                <img class="img-thumbnail" width="75" height="75"
+                     src="@Url.Action("GetImage", "Test",
+                new { Model.Test.Id })" />
+            </div>
+        }
+
+        <h3>
+            <span><strong>@Model.Test.Theme</strong></span>
+        </h3>
+        <p class="lead">@Model.questions.Count.ToString("Всего вопросов: # ")</p>
+        <span class="lead">@Model.Test.Description</span>
+        <p class="lead">@Model.Test.Category @Model.Test.Course.ToString("# класс")</p>
+       
+        @using (Html.BeginForm("Testing", "Testing"))
+        {
+            @Html.Hidden("TestID", Model.Test.Id)
+            //@Html.HiddenFor(x => x.Test.Id
+        <input class="btn btn-block btn-default btn-lg" type="submit" value="Пройти" />
+        }
+    </div>

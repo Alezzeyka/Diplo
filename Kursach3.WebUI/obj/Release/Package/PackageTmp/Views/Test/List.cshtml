@@ -1,0 +1,29 @@
+﻿@using Kursach3.WebUI.Models
+@using Kursach3.WebUI.HtmlHelpers
+@using Kursach3Domain.Entities
+@model TestListViewModel
+@{
+ViewBag.Title = "Тесты";
+}
+
+    
+    @foreach (var p in @Model.Tests)
+    {
+        List<Question> questions = new List<Question>();
+        /*foreach (var q in Model.questions)
+        {
+            if (q.TestID == p.Id)
+            {
+                questions.Add(q);
+            }
+        }*/
+        TestSummaryViewModel testSummary = new TestSummaryViewModel {
+            Test = p,
+            questions = new List<Question>(Model.questions.Where(x => x.TestID == p.Id))
+    };
+        @Html.Partial("TestSummary",testSummary)
+    }
+    <div class="btn-group pull-right">
+        @Html.PageLinks(Model.PagingInfo, x => Url.Action("List",
+            new { page = x, category = Model.CurrentCategory }))
+    </div>

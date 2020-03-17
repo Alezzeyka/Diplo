@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
+    <link href="~/Content/ErrorStyles.css" rel="stylesheet" />
+    <title>@ViewBag.Title</title>
+    <style>
+        .navbar-right {
+            float: right !important;
+            margin-right: 15px;
+            margin-left: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar navbar-inverse" role="navigation">
+        <a class="navbar-brand" href="#">
+            <span class="hidden-xs">CyberTest - онлайн тесты</span>
+            <div class="visible-xs">Cyber</div>
+            <div class="visible-xs">Tests</div>
+        </a>
+    </div>
+    <div class="jumbotron">
+        @RenderBody()
+    </div>
+    <div class="navbar navbar-default navbar-fixed-bottom">
+        <div class="container">
+            <p class="navbar-text pull-right">
+                © Alex Sh. @DateTime.Now.Year.ToString()
+            </p>
+        </div>
+    </div>
+</body>
+</html>

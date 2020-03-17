@@ -1,0 +1,67 @@
+﻿@using Kursach3.WebUI.Models
+@using Kursach3Domain.Entities
+@using Kursach3.WebUI.HtmlHelpers
+@model TestComplitingViewModel
+@{
+    Layout = "~/Views/Shared/_TestingLayout.cshtml";
+    int Id = 0;
+    int i = 1;
+    string s = Model.Tests.Theme;
+    ViewBag.Title = s;
+}
+    
+@{
+    TestPreview Currenttest = Model.Tests;
+    IEnumerable<Question> CurrQuests = Model.Questions;
+    IEnumerable<Answers> CurrAnswers = Model.Answers;
+}
+    <div class="well">
+        <span>Тема:</span>
+        <h2>@Currenttest.Theme</h2>
+        <h3>@Currenttest.Description</h3>
+        @using (Html.BeginForm("TestResult", "Testing"))
+        {
+            foreach (var p in CurrQuests)
+            {
+                <div class="well">
+                    <div>Вопрос @i :</div>
+                    <div>@p.QuestionForm</div>
+                    @foreach (var a in CurrAnswers)
+                    {
+                        int k = 0;
+                        if (a.QuestionID == p.Id)
+                        {
+                            string name = "answer" + i.ToString();
+                            string value = a.AnswerForm.ToString() + ":" + a.IsCorrect.ToString() + ":" + a.Id + ":" + a.QuestionID + ":" + p.TestID;
+                            if (k == 0)
+                            {
+                                <input name="@name" type="radio" value="@value" required>
+                                <span>@a.AnswerForm</span> <br />
+                            }
+                            else
+                            {
+                                <input name="@name" type="radio" value="@value">
+                                <span>@a.AnswerForm</span> <br />
+                            }
+                        }
+                    }
+
+                </div>
+                Id = p.TestID;
+                i++;
+            }
+            <input class="btn btn-success btn-lg" type="submit" value="Ответить">
+            @Html.ActionLink("прекратить тест и вернуться назад", "List", "Test", null,
+       new { @class = "btn btn-warning btn-lg" })
+            @Html.Hidden("Theme", Currenttest.Theme)
+        }
+    </div>
+<div class="navbar navbar-default navbar-fixed-bottom">
+    <div class="container">
+        <p class="navbar-text pull-right">
+            © Alex Sh. @DateTime.Now.Year.ToString()
+        </p>
+    </div>
+</div>
+
+

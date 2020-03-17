@@ -1,0 +1,152 @@
+﻿@using Kursach3.WebUI.Models
+@{
+@model TestResultViewModel
+    Layout = "~/Views/Shared/_TestingLayout.cshtml";
+    int NumOfQ = Convert.ToInt32(ViewBag.Questions);
+    int Correct = Convert.ToInt32(ViewBag.Correct);
+    int Id = Convert.ToInt32(ViewBag.TestID);
+    int i = 1;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>TestResult</title>
+</head>
+<body>
+ 
+    @if (ViewBag.Error != "")
+    {
+    <div class="well-lg">
+        <h1>Извините, вы попали на незавершенный тест, приносим извенения, все палки в администратора</h1>
+       
+    </div>
+    <div>
+        @Html.ActionLink("Главная", "List", "Test", null,
+      new { @class = "btn btn-block btn-warning btn-lg" })
+    </div>
+    }
+        @if (ViewBag.Error == "")
+        {
+    <div class="well text-center">
+        @if (Correct >= NumOfQ)
+        {
+            <h1>Поздровляем!</h1>
+            <h3>Вы успешно прошли тест "@ViewBag.TestTheme" и ответили правильно на все @Correct из @NumOfQ вопросов!</h3>
+        }
+        else
+        {
+            <h1>Неплохо!</h1>
+            <h3>Хоть Вы и не прошли тест "@ViewBag.TestTheme", но ответили правильно на @Correct из @NumOfQ вопросов!</h3>
+            <h2>Пробуйте больше, и у вас все получится!</h2>
+
+        }
+        <div>
+            @using (Html.BeginForm("Testing", "Testing"))
+            {
+                @Html.Hidden("TestID", Id)
+                //@Html.HiddenFor(x => x.Test.Id)
+                <input class="btn btn-block btn-success btn-lg" type="submit" value="Пройти еще раз" />
+            }
+            @Html.ActionLink("Главная", "List", "Test", null,
+            new { @class = "btn btn-block btn-default btn-lg" })
+        </div>
+        <h1>Ваши результаты:</h1>
+    </div>
+        }
+        @if (ViewBag.Error == "")
+        {
+            i = 1;
+        <div class="jumbotron">
+     @foreach (var a in Model.ResultStrings)
+    {
+        string[] b = a.Split(':');
+        if (b[1] == "yes")
+        {
+            <div class="panel alert-success">
+
+                @foreach (var p in Model.Questions)
+
+                {
+
+                    if (p.Id == Convert.ToInt32(b[3]))
+
+                    {
+                        <div>Вопрос @i :</div>
+                        <div>@p.QuestionForm</div>
+                        foreach (var c in Model.Answers)
+                        {
+                            if (c.QuestionID == p.Id)
+                            {
+                                string name = "answer" + i.ToString();
+                                string value = "";
+                                if (c.Id == Convert.ToInt32(b[2]))
+                                {
+                                    <input name="@name" type="radio" value="@value" checked disabled>
+                                    <span>@c.AnswerForm</span> <br />
+                                }
+                                else
+                                {
+                                    <input name="@name" type="radio" value="@value" disabled>
+                                    <span>@c.AnswerForm</span> <br />
+                                }
+                            }
+                        }
+                         i++;
+                    }
+                   
+                }
+            </div>
+         }
+         else
+         {
+             i = 1;
+            <div class="panel alert-danger">
+                @foreach (var p in Model.Questions)
+                {
+                    if (p.Id == Convert.ToInt32(b[3]))
+                    {
+                        <div>Вопрос @i :</div>
+                        <div>@p.QuestionForm</div>
+                        foreach (var c in Model.Answers)
+                        {
+                            if (c.QuestionID == p.Id)
+                            {
+                                string name = "answer" + i.ToString();
+                                string value = "";
+                                if (c.Id == Convert.ToInt32(b[2]))
+                                {
+                                    <input name="@name" type="radio" value="@value" checked disabled>
+                                    <span>@c.AnswerForm</span> <br />
+                                }
+                                else
+                                {
+                                    <input name="@name" type="radio" value="@value" disabled>
+                                    <span>@c.AnswerForm</span> <br />
+                                }
+                            }
+                        }
+                         i++;
+                    }
+                   
+                }
+            </div>
+        }
+    }
+</div>
+        }
+        @if (ViewBag.Error == "")
+        {
+        <div>
+            @using (Html.BeginForm("Testing", "Testing"))
+            {
+                @Html.Hidden("TestID", Id)
+                //@Html.HiddenFor(x => x.Test.Id)
+                <input class="btn btn-block btn-success btn-lg" type="submit" value="Пройти еще раз" />
+            }
+            @Html.ActionLink("Главная", "List", "Test", null,
+            new { @class = "btn btn-block btn-default btn-lg" })
+        </div>
+        }
+</body>
+</html>
