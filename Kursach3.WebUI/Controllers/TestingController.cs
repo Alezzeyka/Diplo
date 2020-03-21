@@ -11,6 +11,7 @@ using System.Data.Entity;
 
 namespace Kursach3.WebUI.Controllers
 {
+    [Authorize]
     public class TestingController : Controller
     {
         // GET: Testing
