@@ -113,7 +113,9 @@
     <Compile Include="Concrete\EFApplicationContext.cs" />
     <Compile Include="Entities\ApplicationUser.cs" />
     <Compile Include="Entities\ApplicationUserManager.cs" />
+    <Compile Include="Entities\LoginModel.cs" />
     <Compile Include="Entities\Question.cs" />
+    <Compile Include="Entities\RegisterModel.cs" />
     <Compile Include="Entities\TestPreview.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -14,7 +14,7 @@ namespace Kursach3.WebUI.Controllers
     [Authorize]
     public class TestingController : Controller
     {
-        // GET: Testing
+        
         private ITestRepository test;
         private IQuestionRepository question;
         private IAnswersRepository answers;

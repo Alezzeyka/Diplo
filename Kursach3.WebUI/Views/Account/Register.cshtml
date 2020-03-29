@@ -1,0 +1,36 @@
+﻿@model Kursach3Domain.Entities.RegisterModel
+
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="panel">
+    <div class="panel-heading">
+        <h3>Регистрация</h3>
+    </div>
+    <div class="panel-body">
+        <p class="lead">Пожалуйста, войдите в систему, чтобы продолжить:</p>
+        @using (Html.BeginForm())
+        {
+            @Html.ValidationSummary()
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                <label>Электронный адрес:</label>
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label>Год рождения:</label>
+                @Html.PasswordFor(m => m.Year, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label>Пароль:</label>
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label>Подтвердить пароль:</label>
+                @Html.PasswordFor(m => m.PasswordConfirm, new { @class = "form-control" })
+            </div>
+            <input type="submit" value="Зарегистрироваться" class="btn btn-success btn-lg" />
+        }
+    </div>
+</div>
