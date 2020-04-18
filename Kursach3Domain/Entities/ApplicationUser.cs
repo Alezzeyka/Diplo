@@ -9,7 +9,7 @@ namespace Kursach3Domain.Entities
 {
     public class ApplicationUser : IdentityUser
     {
-        public int Year { get; set; }
+        public string Name { get; set; }
         public ApplicationUser()
         {
         }

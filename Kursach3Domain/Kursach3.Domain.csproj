@@ -111,17 +111,37 @@
     <Compile Include="Concrete\EFTestRepository.cs" />
     <Compile Include="Entities\Answers.cs" />
     <Compile Include="Concrete\EFApplicationContext.cs" />
+    <Compile Include="Entities\ApplicationRole.cs" />
+    <Compile Include="Entities\ApplicationRoleManager.cs" />
     <Compile Include="Entities\ApplicationUser.cs" />
     <Compile Include="Entities\ApplicationUserManager.cs" />
+    <Compile Include="Entities\EditModel.cs" />
     <Compile Include="Entities\LoginModel.cs" />
     <Compile Include="Entities\Question.cs" />
     <Compile Include="Entities\RegisterModel.cs" />
     <Compile Include="Entities\TestPreview.cs" />
+    <Compile Include="Migrations\202004181150333_InitialCreate.cs" />
+    <Compile Include="Migrations\202004181150333_InitialCreate.designer.cs">
+      <DependentUpon>202004181150333_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004181357051_DataMigration.cs" />
+    <Compile Include="Migrations\202004181357051_DataMigration.designer.cs">
+      <DependentUpon>202004181357051_DataMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202004181150333_InitialCreate.resx">
+      <DependentUpon>202004181150333_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004181357051_DataMigration.resx">
+      <DependentUpon>202004181357051_DataMigration.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

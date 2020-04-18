@@ -17,12 +17,26 @@
 </head>
 <body>
     <div class="navbar navbar-inverse" role="navigation">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="/">
             <span class="hidden-xs">CyberTest - онлайн тесты</span>
+
             <div class="visible-xs">Cyber</div>
             <div class="visible-xs">Tests</div>
         </a>
+        <span class="navbar-right ">
+            @if (User.Identity.IsAuthenticated == false)
+            {
+                <a class="navbar-brand left" href="@Url.Action("Login", "Account")">Войти</a>
+                <span class="navbar-text left">/</span>
+                <a class="navbar-brand left" href="@Url.Action("Register", "Account")">Регистрация</a>
+            }
+            else
+            {
+                <span class="navbar-brand">@User.Identity.Name</span>
+            }
+        </span>
     </div>
+    
     <div class="visible-xs">
         @Html.Action("Menu", "Nav", new { horizontalNav = true })
     </div>

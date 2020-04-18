@@ -11,6 +11,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System.Security.Claims;
+using System.Data.Entity;
+using Kursach3Domain.Concrete;
 namespace Kursach3.WebUI.Controllers
 {
     /*public class AccountController : Controller
@@ -68,7 +70,7 @@ namespace Kursach3.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                ApplicationUser user = new ApplicationUser { UserName = model.Email, Email = model.Email, Year = model.Year };
+                ApplicationUser user = new ApplicationUser { UserName = model.Email, Email = model.Email, Name = model.Name };
                 IdentityResult result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -130,6 +132,63 @@ namespace Kursach3.WebUI.Controllers
         {
             AuthenticationManager.SignOut();
             return RedirectToAction("Login");
+        }
+        [HttpGet]
+        public ActionResult Delete()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ActionName("Delete")]
+        public async Task<ActionResult> DeleteConfirmed()
+        {
+            ApplicationUser user = await UserManager.FindByEmailAsync(User.Identity.Name);
+            if (user != null)
+            {
+                IdentityResult result = await UserManager.DeleteAsync(user);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Logout", "Account");
+                }
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+        public async Task<ActionResult> Edit()
+        {
+            ApplicationUser user = await UserManager.FindByEmailAsync(User.Identity.Name);
+            if (user != null)
+            {
+                EditModel model = new EditModel { Name = user.Name };
+                return View(model);
+            }
+            return RedirectToAction("Login", "Account");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Edit(EditModel model)
+        {
+            ApplicationUser user = await UserManager.FindByEmailAsync(User.Identity.Name);
+            if (user != null)
+            {
+                user.Name= model.Name;
+                IdentityResult result = await UserManager.UpdateAsync(user);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Что-то пошло не так");
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("", "Пользователь не найден");
+            }
+
+            return View(model);
         }
     }
 }

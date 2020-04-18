@@ -187,3 +187,6 @@ D:\DiploRep\Diplo\Kursach3Domain\bin\Debug\Microsoft.Owin.Security.xml
 D:\DiploRep\Diplo\Kursach3Domain\bin\Debug\Microsoft.Owin.Security.Cookies.xml
 D:\DiploRep\Diplo\Kursach3Domain\bin\Debug\Microsoft.Owin.Security.OAuth.xml
 D:\DiploRep\Diplo\Kursach3Domain\bin\Debug\Newtonsoft.Json.xml
+D:\DiploRep\Diplo\Kursach3Domain\obj\Debug\Kursach3Domain.Migrations.InitialCreate.resources
+D:\DiploRep\Diplo\Kursach3Domain\obj\Debug\Kursach3.Domain.csproj.GenerateResource.cache
+D:\DiploRep\Diplo\Kursach3Domain\obj\Debug\Kursach3Domain.Migrations.DataMigration.resources
