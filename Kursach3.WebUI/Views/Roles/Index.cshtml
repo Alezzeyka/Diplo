@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Kursach3Domain.Entities.ApplicationRole>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div>
+<h2>Роли @Html.ActionLink("Добавить роль", "Create", null, new { @class = "btn btn-default btn-lg" })</h2>
+</div>
+<table class="table">
+    <tr>
+        <th>Название</th>
+        <th>Описание</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Name</td>
+            <td>@item.Description</td>
+            <td>
+                @Html.ActionLink("Изменить", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Удалить","Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+</table>

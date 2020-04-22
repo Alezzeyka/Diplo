@@ -32,7 +32,7 @@
             }
             else
             {
-                <span class="navbar-brand">@User.Identity.Name</span>
+                <a class="navbar-brand left" href="@Url.Action("Index", "Account")">@User.Identity.Name</a>
             }
         </span>
     </div>

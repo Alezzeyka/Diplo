@@ -1,0 +1,30 @@
+﻿@model IEnumerable<Kursach3Domain.Entities.ApplicationUser>
+@{
+    ViewBag.Title = "UsersIndex";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div>
+    <h2>Пользователи</h2>
+</div>
+<table class="table">
+    <tr>
+        <th>Пользователь</th>
+        <th>Почта</th>
+        <th>Роли</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>@item.Name</td>
+    <td>@item.Email</td>
+    <td></td>
+    <td>
+        @Html.ActionLink("Изменить", "EditByAdmin", new { id = item.Id }) |
+        @Html.ActionLink("Удалить", "DeleteByAdmin", new { id = item.Id })
+    </td>
+</tr>
+    }
+</table>
+

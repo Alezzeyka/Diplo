@@ -1,0 +1,16 @@
+﻿@model Kursach3Domain.Entities.UserInfoModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<h2>Личный кабинет</h2>
+<div>@Model.Name</div>
+<div>@Model.Email</div>
+<div>@Model.Role</div>
+@Html.ActionLink("Изменить данные", "Edit", "Account", new { @class = "btn btn-default btn-lg" })
+@Html.ActionLink("Выйти", "Logout", "Account", new { @class = "btn btn-default btn-lg" })
+@Html.ActionLink("Удалить аккаунт", "Delete", "Account", new { @class = "btn btn-danger btn-lg" })
+
+
+

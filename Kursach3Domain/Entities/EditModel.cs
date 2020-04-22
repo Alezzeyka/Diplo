@@ -9,5 +9,6 @@ namespace Kursach3Domain.Entities
     public class EditModel
     {
     public string Name  { get; set; }
+    public string Id { get; set; }
     }
 }

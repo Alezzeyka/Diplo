@@ -115,11 +115,14 @@
     <Compile Include="Entities\ApplicationRoleManager.cs" />
     <Compile Include="Entities\ApplicationUser.cs" />
     <Compile Include="Entities\ApplicationUserManager.cs" />
+    <Compile Include="Entities\CreateRoleModel.cs" />
     <Compile Include="Entities\EditModel.cs" />
+    <Compile Include="Entities\EditRoleModel.cs" />
     <Compile Include="Entities\LoginModel.cs" />
     <Compile Include="Entities\Question.cs" />
     <Compile Include="Entities\RegisterModel.cs" />
     <Compile Include="Entities\TestPreview.cs" />
+    <Compile Include="Entities\UserInfoModel.cs" />
     <Compile Include="Migrations\202004181150333_InitialCreate.cs" />
     <Compile Include="Migrations\202004181150333_InitialCreate.designer.cs">
       <DependentUpon>202004181150333_InitialCreate.cs</DependentUpon>

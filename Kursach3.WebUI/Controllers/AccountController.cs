@@ -152,7 +152,7 @@ namespace Kursach3.WebUI.Controllers
                     return RedirectToAction("Logout", "Account");
                 }
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("List", "Test");
         }
 
         public async Task<ActionResult> Edit()
@@ -165,7 +165,6 @@ namespace Kursach3.WebUI.Controllers
             }
             return RedirectToAction("Login", "Account");
         }
-
         [HttpPost]
         public async Task<ActionResult> Edit(EditModel model)
         {
@@ -176,7 +175,7 @@ namespace Kursach3.WebUI.Controllers
                 IdentityResult result = await UserManager.UpdateAsync(user);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("List", "Test");
                 }
                 else
                 {
@@ -189,6 +188,62 @@ namespace Kursach3.WebUI.Controllers
             }
 
             return View(model);
+        }
+        public async Task<ActionResult> Index()
+        {
+            ApplicationUser user = await UserManager.FindByEmailAsync(User.Identity.Name);
+            UserInfoModel userInfo = new UserInfoModel
+            {
+                Name = user.Name,
+                Email = user.Email,
+                Role = user.Roles.ToString()
+            };
+            return View(userInfo);
+        }
+        public ActionResult UsersIndex()
+        {
+            return View(UserManager.Users);
+        }
+        public async Task<ActionResult> EditByAdmin(string id)
+        {
+            ApplicationUser role = await UserManager.FindByIdAsync(id);
+            if (role != null)
+            {
+                return View(new EditModel { Id = role.Id, Name = role.Name});
+            }
+            return RedirectToAction("UsersIndex");
+        }
+        [HttpPost]
+        public async Task<ActionResult> EditByAdmin(EditModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                ApplicationUser role = await UserManager.FindByIdAsync(model.Id);
+                if (role != null)
+                {
+                    
+                    role.Name = model.Name;
+                    IdentityResult result = await UserManager.UpdateAsync(role);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("UsersIndex");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Что-то пошло не так");
+                    }
+                }
+            }
+            return View(model);
+        }
+        public async Task<ActionResult> DeleteByAdmin(string id)
+        {
+            ApplicationUser role = await UserManager.FindByIdAsync(id);
+            if (role != null)
+            {
+                IdentityResult result = await UserManager.DeleteAsync(role);
+            }
+            return RedirectToAction("UsersIndex");
         }
     }
 }
