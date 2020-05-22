@@ -1,0 +1,28 @@
+﻿@using Kursach3.WebUI.Models
+@using Kursach3.WebUI.HtmlHelpers
+@using Kursach3Domain.Entities
+@model TestListViewModel
+@{
+    ViewBag.Title = "Тесты";
+    Layout = "~/Views/Shared/_ZNOLayout.cshtml";
+}
+
+
+@foreach (var p in @Model.Tests)
+{
+    TestSummaryViewModel testSummary = new TestSummaryViewModel
+    {
+        Test = p,
+    };
+    if ((p.ImgId != 0) && (p.NumOfQ >= 1))
+    {
+        var Picture = Model.pictures.FirstOrDefault(x => x.Id == p.ImgId);
+        testSummary.Picture = Picture;
+        @Html.Partial("TestSummary", testSummary)
+    }
+}
+    <div class="btn-group pull-right">
+        @Html.PageLinks(Model.PagingInfo, x => Url.Action("ZNOList",
+            new { page = x, category = Model.CurrentCategory }))
+    </div> 
+

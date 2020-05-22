@@ -1,0 +1,48 @@
+﻿@model Kursach3Domain.Entities.Picture
+
+@{
+    ViewBag.Title = "CreatePic";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="panel">
+    <div class="panel-heading">
+        <h3>Редактирование изображения «@Model.Name»</h3>
+    </div>
+
+    @using (Html.BeginForm("EditPic", "Admin",FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div class="panel-body">
+            @Html.HiddenFor(m => m.Id)
+            @foreach (var property in ViewData.ModelMetadata.Properties)
+            {
+                switch (property.PropertyName)
+                {
+                    case "Id":
+                    // Ничего не делать
+                    break;
+                    default:
+                        <div class="form-group">
+                            <label>@(property.DisplayName ?? property.PropertyName)</label>
+                            @if (property.PropertyName == "Image")
+                            {
+                            <input type="file" name="uploadImage" class="btn btn-default btn-block btn-lg"/>
+                            }
+                            else
+                            {
+                                
+                                @Html.TextBox(property.PropertyName, null,
+                                    new { @class = "form-control" })
+                            }
+                            @Html.ValidationMessage(property.PropertyName)
+                        </div>
+                        break;
+                }
+            }
+        </div>
+        <div class="panel-footer">
+            <input type="submit" value="Сохранить" class="btn btn-primary btn-lg" />
+            @Html.ActionLink("Отменить изменения и вернуться к списку", "PicIndex", null, new { @class = "btn btn-warning btn-lg" })
+        </div>
+    }
+</div>

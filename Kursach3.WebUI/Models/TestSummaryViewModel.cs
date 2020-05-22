@@ -9,6 +9,6 @@ namespace Kursach3.WebUI.Models
     public class TestSummaryViewModel
     {
         public TestPreview Test { get; set;}
-        public List<Question> questions { get; set; }
+        public Picture Picture { get; set; }
     }
 }

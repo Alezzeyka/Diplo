@@ -5,29 +5,35 @@
     string wrapperClasses = horizontal ? "btn-group btn-group-sm btn-group-justified" : null;
 }
 
-<div class="@wrapperClasses">
-
-    @Html.ActionLink("Домой", "List", "Test", null,
-    new
-    {
-        @class = horizontal ? "btn btn-default btn-sm" :
-            "btn btn-block btn-default btn-lg"
-    })
-
-    @foreach (var link in Model)
-    {
-        @Html.RouteLink(link, new
+    <div class="@wrapperClasses">
+        @Html.ActionLink("Главная", "Index", "Default", null,
+        new
         {
-            controller = "Test",
-            action = "List",
-            category = link,
-            page = 1
-        }, new
-        {
-            @class = (horizontal ? "btn btn-default btn-sm"
-                : "btn btn-block btn-default btn-lg")
-                + (link == ViewBag.SelectedCategory ? " btn-primary" : "")
+            @class = horizontal ? "btn btn-default btn-sm" :
+                "btn btn-block btn-default btn-lg"
         })
-    }
-
-</div>
+        <div class="well-sm"><h2>Выберите класс</h2></div>
+        @Html.ActionLink("Сброс", "List", "Test", null,
+        new
+        {
+            @class = horizontal ? "btn btn-default btn-sm" :
+                "btn btn-block btn-default btn-lg"
+        })
+        <div></div>
+        @foreach (var link in Model)
+        {
+            @Html.RouteLink(link, new
+            {
+                controller = "Test",
+                action = "List",
+                category = link,
+                page = 1
+            }, new
+            {
+                @class = (horizontal ? "btn btn-default btn-sm"
+                    : "btn btn-default btn-lg")
+                    + (link == ViewBag.SelectedCategory ? " btn-primary" : "")
+            })
+        }
+        
+    </div>

@@ -12,35 +12,45 @@
         @using (Html.BeginForm("EditAnswer", "Admin", FormMethod.Post))
         {
             @Html.ValidationSummary();
-    <div class="panel-body">
+    <div class="panel-body btn-group-toggle">
         @Html.HiddenFor(m => m.Id)
         @Html.HiddenFor(m => m.QuestionID)
         @foreach (var property in ViewData.ModelMetadata.Properties)
         {
-            if ((property.PropertyName != "Id") && (property.PropertyName != "QuestionID"))
+            switch (property.PropertyName)
             {
-                <div class="form-group">
-                    <label>@(property.DisplayName ?? property.PropertyName)</label>
-                    @Html.TextBox(property.PropertyName, null,
-                        new { @class = "form-control" })
-                    @Html.ValidationMessage(property.PropertyName)
-                </div>
+                case "Id":
+                case "ImgId":
+                case "QuestionID":
+                    // Ничего не делать
+                    break;
+                default:
+                    <div class="form-group">
+                        <label>@(property.DisplayName ?? property.PropertyName)</label>
+                        @if (property.PropertyName == "IsCorrect")
+                        {
+                            
+                            @Html.CheckBoxFor(m=>m.IsCorrect,new { @class="btn btn-secondary active"})
+                            
+                        }
+                        else
+                        {
+                            @Html.TextBox(property.PropertyName, null,
+                                new { @class = "form-control" })
+                        }
+                        @Html.ValidationMessage(property.PropertyName)
+                    </div>
+                    break;
             }
         }
     </div>
-                <div class="panel-footer">
-                    <input type="submit" value="Сохранить" class="btn btn-primary btn-lg" />
-                    @Html.ActionLink("Отменить изменения и вернуться к списку", "Index", null, new { @class = "btn btn-warning btn-lg" })
-                </div>
-                }
-            </div>
-            <div class="navbar navbar-default navbar-fixed-bottom">
-                <div class="container">
-                    <p class="navbar-text pull-right">
-                        © Alex Sh. @DateTime.Now.Year.ToString()
-                    </p>
-                </div>
-            </div>
+         <div class="panel-footer">
+         <input type="submit" value="Сохранить" class="btn btn-primary btn-lg" />
+         @Html.ActionLink("Отменить изменения и вернуться к списку", "AnswerIndex", Model.QuestionID, new { @class = "btn btn-warning btn-lg" })
+         </div>
+         }
+    </div>
+            
 
 
             

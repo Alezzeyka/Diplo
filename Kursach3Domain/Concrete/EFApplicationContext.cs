@@ -20,5 +20,6 @@ namespace Kursach3Domain.Entities
             
             return new ApplicationContext();
         }
+
     }
 }

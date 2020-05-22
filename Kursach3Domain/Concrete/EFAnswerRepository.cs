@@ -28,6 +28,8 @@ namespace Kursach3Domain.Concrete
                     dbEntry.AnswerForm = answers.AnswerForm;
                     dbEntry.IsCorrect = answers.IsCorrect;
                     dbEntry.QuestionID = answers.QuestionID;
+                    dbEntry.ImgId = answers.ImgId;
+                    dbEntry.AnswerScore = answers.AnswerScore;
                 }
             }
             context.SaveChanges();
@@ -41,6 +43,14 @@ namespace Kursach3Domain.Concrete
                 context.SaveChanges();
             }
             return dbEntry;
+        }
+        public void DeleteAnswers(IEnumerable<Answers> answers)
+        {
+            
+                context.Answers.RemoveRange(answers);
+                context.SaveChanges();
+            
+            return;
         }
     }
 }

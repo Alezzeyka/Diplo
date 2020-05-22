@@ -15,11 +15,16 @@ namespace Kursach3Domain.Entities
         public int Id { get; set; }
         [HiddenInput(DisplayValue = false)]
         public int QuestionID { get; set; }
+        [Required]
         [Display(Name = "Форма ответа")]
-        
         public string AnswerForm { get; set; }
+        [Required]
         [Display(Name = "Правильность")]
-        
-        public string IsCorrect { get; set; }
+        public bool IsCorrect { get; set; }
+        [Display(Name ="Код изображения")]
+        [HiddenInput(DisplayValue = false)]
+        public int ImgId { get; set; }
+        [Display(Name ="Баллы за ответ (только для правильных)")]
+        public int AnswerScore { get; set; }
     }
 }

@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
+    <link href="~/Content/ErrorStyles.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <title></title>
+</head>
+<body>
+    <div class="navbar navbar-inverse" role="navigation">
+        <a class="navbar-brand" href="/">
+            <span class="hidden-xs">CyberTest - онлайн тесты</span>
+
+            <div class="visible-xs">Cyber</div>
+            <div class="visible-xs">Tests</div>
+        </a>
+        <span class="navbar-right ">
+            @if (User.Identity.IsAuthenticated == false)
+            {
+                <a class="navbar-brand left" href="@Url.Action("Login", "Account")">Войти</a>
+                <span class="navbar-text left">/</span>
+                <a class="navbar-brand left" href="@Url.Action("Register", "Account")">Регистрация</a>
+            }
+            else
+            {
+                <a class="navbar-brand left" href="@Url.Action("Index", "Account")">@User.Identity.Name</a>
+            }
+        </span>
+    </div>
+    <div class="col-xs-10 col-sm-12">
+        @RenderBody()
+    </div>
+    <div class="navbar navbar-fixed-bottom">
+    <div class="panel-footer">
+        <div class="container">
+            <p class="navbar-text pull-right">
+                © Alex Sh. @DateTime.Now.Year.ToString()
+            </p>
+        </div>
+    </div>
+    </div>
+</body>
+</html>

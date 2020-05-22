@@ -1,152 +1,121 @@
 ﻿@using Kursach3.WebUI.Models
+@using Kursach3Domain.Entities
+@using Kursach3.WebUI.HtmlHelpers
+@using Kursach3.WebUI.Models
 @{
-@model TestResultViewModel
+    @model TestResultViewModel
     Layout = "~/Views/Shared/_TestingLayout.cshtml";
-    int NumOfQ = Convert.ToInt32(ViewBag.Questions);
-    int Correct = Convert.ToInt32(ViewBag.Correct);
-    int Id = Convert.ToInt32(ViewBag.TestID);
     int i = 1;
 }
-<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>TestResult</title>
-</head>
-<body>
- 
-    @if (ViewBag.Error != "")
+@Html.Hidden("Id", Model.Test.Id)
+<h1>Результаты</h1>
+<h2>Ваш результат состовляет @Model.score из @Model.Test.MaxScore</h2>
+<h1>Вопросы</h1>
+<ul class="nav nav-tabs">
+    @foreach (var p in Model.Questions)
     {
-    <div class="well-lg">
-        <h1>Извините, вы попали на незавершенный тест, приносим извенения, все палки в администратора</h1>
-       
-    </div>
-    <div>
-        @Html.ActionLink("Главная", "List", "Test", null,
-      new { @class = "btn btn-block btn-warning btn-lg" })
-    </div>
-    }
-        @if (ViewBag.Error == "")
+        string s = "#nav-quest" + p.Id.ToString();
+        if (i == 1)
         {
-    <div class="well text-center">
-        @if (Correct >= NumOfQ)
-        {
-            <h1>Поздровляем!</h1>
-            <h3>Вы успешно прошли тест "@ViewBag.TestTheme" и ответили правильно на все @Correct из @NumOfQ вопросов!</h3>
+            <li class="nav-item">
+                <a class="navbar-link active" data-toggle="tab" href=@s>@i</a>
+            </li>
+
         }
         else
         {
-            <h1>Неплохо!</h1>
-            <h3>Хоть Вы и не прошли тест "@ViewBag.TestTheme", но ответили правильно на @Correct из @NumOfQ вопросов!</h3>
-            <h2>Пробуйте больше, и у вас все получится!</h2>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href=@s>@i</a>
+            </li>
 
         }
-        <div>
-            @using (Html.BeginForm("Testing", "Testing"))
-            {
-                @Html.Hidden("TestID", Id)
-                //@Html.HiddenFor(x => x.Test.Id)
-                <input class="btn btn-block btn-success btn-lg" type="submit" value="Пройти еще раз" />
-            }
-            @Html.ActionLink("Главная", "List", "Test", null,
-            new { @class = "btn btn-block btn-default btn-lg" })
-        </div>
-        <h1>Ваши результаты:</h1>
-    </div>
-        }
-        @if (ViewBag.Error == "")
+        i = i + 1;
+    }
+</ul>
+    @{ i = 1; }
+<div class="tab-content">
+    @foreach (var p in Model.ResultStrings)
+     {        
+        string s = "nav-quest" + p.QuestionId.ToString();
+        Question question = Model.Questions.First(x => x.Id == p.QuestionId);
+        if (p.IsCorrect == true)
         {
-            i = 1;
-        <div class="jumbotron">
-     @foreach (var a in Model.ResultStrings)
-    {
-        string[] b = a.Split(':');
-        if (b[1] == "yes")
-        {
-            <div class="panel alert-success">
-
-                @foreach (var p in Model.Questions)
-
-                {
-
-                    if (p.Id == Convert.ToInt32(b[3]))
-
-                    {
-                        <div>Вопрос @i :</div>
-                        <div>@p.QuestionForm</div>
-                        foreach (var c in Model.Answers)
-                        {
-                            if (c.QuestionID == p.Id)
-                            {
-                                string name = "answer" + i.ToString();
-                                string value = "";
-                                if (c.Id == Convert.ToInt32(b[2]))
-                                {
-                                    <input name="@name" type="radio" value="@value" checked disabled>
-                                    <span>@c.AnswerForm</span> <br />
-                                }
-                                else
-                                {
-                                    <input name="@name" type="radio" value="@value" disabled>
-                                    <span>@c.AnswerForm</span> <br />
-                                }
-                            }
-                        }
-                         i++;
-                    }
-                   
-                }
-            </div>
+         <div class="tab-pane fade" id=@s>
+             <div class="jumbotron alert-success">
+                 <p class="lead"><strong>@question.QuestionForm</strong></p>
+                 @if (question.ImgId != 0)
+                 {
+                     Picture picture = Model.Pictures.First(x => x.Id == question.ImgId);
+                     <div class="img-thumbnail">@Html.Raw("<img style='width:150px; height:250px;'vspace='5' hspace='5' src=\"data:image/jpeg;base64," + Convert.ToBase64String(picture.Image) + "\"/>")</div>
+                 }
+                 @foreach (var a in Model.Answers.Where(x => x.QuestionID == question.Id))
+                 {
+                     string name = "answer" + i;
+                     if (a.Id == p.AnswerId)
+                     {
+             <div class="alert-success">
+                 <input name="@name" type="radio" checked disabled>
+                 <span class="text-success">@a.AnswerForm</span> <br />
+             </div>
+                     }
+                     else
+                     {
+                         <input name="@name" type="radio" disabled>
+                         <span>@a.AnswerForm</span> <br />
+                     }
+                 }
+             </div>
+         </div>
          }
          else
          {
-             i = 1;
-            <div class="panel alert-danger">
-                @foreach (var p in Model.Questions)
-                {
-                    if (p.Id == Convert.ToInt32(b[3]))
-                    {
-                        <div>Вопрос @i :</div>
-                        <div>@p.QuestionForm</div>
-                        foreach (var c in Model.Answers)
-                        {
-                            if (c.QuestionID == p.Id)
-                            {
-                                string name = "answer" + i.ToString();
-                                string value = "";
-                                if (c.Id == Convert.ToInt32(b[2]))
-                                {
-                                    <input name="@name" type="radio" value="@value" checked disabled>
-                                    <span>@c.AnswerForm</span> <br />
-                                }
-                                else
-                                {
-                                    <input name="@name" type="radio" value="@value" disabled>
-                                    <span>@c.AnswerForm</span> <br />
-                                }
-                            }
-                        }
-                         i++;
-                    }
-                   
-                }
-            </div>
-        }
-    }
-</div>
-        }
-        @if (ViewBag.Error == "")
+        <div class="tab-pane fade" id=@s>
+        <div class="jumbotron alert-danger">
+        <p class="lead"><strong>@question.QuestionForm</strong></p>
+        @if (question.ImgId != 0)
         {
-        <div>
-            @using (Html.BeginForm("Testing", "Testing"))
-            {
-                @Html.Hidden("TestID", Id)
-                //@Html.HiddenFor(x => x.Test.Id)
-                <input class="btn btn-block btn-success btn-lg" type="submit" value="Пройти еще раз" />
-            }
-            @Html.ActionLink("Главная", "List", "Test", null,
-            new { @class = "btn btn-block btn-default btn-lg" })
-        </div>
+        Picture picture = Model.Pictures.First(x => x.Id == question.ImgId);
+        <div class="img-thumbnail">@Html.Raw("<img style='width:150px; height:250px;'vspace='5' hspace='5' src=\"data:image/jpeg;base64," + Convert.ToBase64String(picture.Image) + "\"/>")</div>
         }
-</body>
-</html>
+        @foreach (var a in Model.Answers.Where(x => x.QuestionID == question.Id))
+        {
+            string name = "answer" + i;
+            if (a.Id == p.AnswerId)
+            {
+                <div class="alert-danger">
+                <input name="@name" type="radio" checked disabled>
+                <span class="text-danger">@a.AnswerForm</span> <br />
+                </div>
+            }
+            else
+            {
+                if (a.IsCorrect == true)
+                {
+                    <div class="alert-success">
+                    <input name="@name" type="radio" disabled>
+                    <span class="text-success">@a.AnswerForm</span> <br />
+                    </div>
+                }
+                else
+                {
+                    <input name="@name" type="radio" disabled>
+                    <span>@a.AnswerForm</span> <br />
+                }
+            }
+         }
+        </div>
+        </div>
+           }
+        i = i + 1;
+     }
+</div>
+<div class="panel panel-footer text-center" style="margin-bottom:10%;">
+    <div>
+        @using (Html.BeginForm("Testing", "Testing"))
+        {
+            @Html.Hidden("TestID", Model.Test.Id)
+            <input class="btn btn-block btn-success btn-lg" type="submit" value="Пройти еще раз" />
+        }
+        @Html.ActionLink("Главная", "List", "Test", null, new { @class = "btn btn-block btn-default btn-lg" })
+    </div>
+</div>

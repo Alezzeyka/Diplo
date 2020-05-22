@@ -20,16 +20,28 @@
         <a class="navbar-brand left" href="@Url.Action("Index", "Admin")">Тесты</a>
         <a class="navbar-brand left" href="@Url.Action("Index", "Roles")">Роли</a>
         <a class="navbar-brand left" href="@Url.Action("UsersIndex", "Account")">Пользователи</a>
+        <a class="navbar-brand left" href="@Url.Action("PicIndex", "Admin")">Изображения</a>
     </div>
-
-    <div>
+    <div style="margin-left:10%;margin-right:10%">
         @if (TempData["message"] != null)
         {
             <div class="alert alert-success">@TempData["message"]</div>
         }
+        @if (TempData["error"] != null)
+        {
+            <div class="alert alert-danger">@TempData["error"]</div>
+        }
         @RenderBody()
     </div>
-    
+    <div class="navbar navbar-fixed-bottom">
+        <div class="panel-footer">
+            <div class="container">
+                <p class="navbar-text pull-right">
+                    © Alex Sh. @DateTime.Now.Year.ToString()
+                </p>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

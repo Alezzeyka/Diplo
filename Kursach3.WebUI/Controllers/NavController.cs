@@ -10,6 +10,7 @@ using Kursach3.WebUI.Models;
 using System.Data.Entity;
 namespace Kursach3.WebUI.Controllers
 {
+    [Authorize(Roles = "Пользователь")]
     public class NavController : Controller
     {
        
@@ -21,12 +22,24 @@ namespace Kursach3.WebUI.Controllers
         public PartialViewResult Menu(string category = null)
         {
             ViewBag.SelectedCategory = category;
-
-            IEnumerable<string> categories = repository.Tests
-                .Select(game => game.Category)
-                .Distinct()
-                .OrderBy(x => x);
+            IEnumerable<TestPreview> tests = repository.Tests.Where(x => x.ZNO == false);
+            IEnumerable<string> categories = tests
+                .Where(x => x.ImgId != 0 && x.NumOfQ>=1)
+                .OrderBy(x => x.Course)
+                .Select(test => test.Course.ToString())
+                .Distinct();
             return PartialView("FlexMenu", categories);
+        }
+        public PartialViewResult ZNOMenu(string category = null)
+        {
+            ViewBag.SelectedCategory = category;
+            IEnumerable<TestPreview> tests = repository.Tests.Where(x => x.ZNO == true);
+            IEnumerable<string> categories = tests
+                .Where(x => x.ImgId != 0 && x.NumOfQ >= 1)
+                .OrderBy(x => x.Course)
+                .Select(test => test.Course.ToString())
+                .Distinct();
+            return PartialView("ZNOFlexMenu", categories);
         }
     }
 }

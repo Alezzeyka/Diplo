@@ -150,6 +150,13 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\ErrorStyles.css" />
+    <Content Include="Content\img\1.jpg" />
+    <Content Include="Content\img\2.jpg" />
+    <Content Include="Content\img\3.jpg" />
+    <Content Include="Content\img\4.jpg" />
+    <Content Include="Content\js\classie.js" />
+    <Content Include="Content\js\modernizr.custom.js" />
+    <Content Include="Content\js\tiltSlider.js" />
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -178,6 +185,7 @@
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\NavController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\TestController.cs" />
@@ -194,12 +202,17 @@
     <Compile Include="Models\AnswersIndexViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\QuestionIndexViewModel.cs" />
+    <Compile Include="Models\QuestionListviewModel.cs" />
+    <Compile Include="Models\QuestionSummaryViewModel.cs" />
     <Compile Include="Models\ResultModel.cs" />
     <Compile Include="Models\PagingInfo.cs" />
+    <Compile Include="Models\SetPicIndexModel.cs" />
     <Compile Include="Models\TestComplitingViewModel.cs" />
+    <Compile Include="Models\TestCountModel.cs" />
     <Compile Include="Models\TestListViewModel.cs" />
     <Compile Include="Models\TestResultViewModel.cs" />
     <Compile Include="Models\TestSummaryViewModel.cs" />
+    <Compile Include="Models\UserIndexModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -211,7 +224,6 @@
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
     <Content Include="Views\Shared\TestSummary.cshtml" />
-    <Content Include="Views\Nav\Menu.cshtml" />
     <Content Include="Views\Testing\Testing.cshtml" />
     <Content Include="Views\Testing\TestResult.cshtml" />
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
@@ -220,10 +232,8 @@
     <Content Include="Views\Admin\AnswerIndex.cshtml" />
     <Content Include="Views\Admin\EditQuestion.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
-    <Content Include="Views\Nav\MenuHorizontal.cshtml" />
     <Content Include="Views\Nav\FlexMenu.cshtml" />
     <Content Include="Views\Shared\_Layout.Mobile.cshtml" />
-    <Content Include="Views\Nav\FlexMenu.Mobile.cshtml" />
     <Content Include="Views\Shared\TestSummary.Mobile.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Shared\_TestingLayout.cshtml" />
@@ -238,6 +248,21 @@
     <Content Include="Views\Shared\_UserLayout.cshtml" />
     <Content Include="Views\Account\UsersIndex.cshtml" />
     <Content Include="Views\Account\EditByAdmin.cshtml" />
+    <Content Include="Views\Admin\PicIndex.cshtml" />
+    <Content Include="Views\Admin\EditPic.cshtml" />
+    <Content Include="Views\Default\Index.cshtml" />
+    <Content Include="Views\Shared\_StartLayout.cshtml" />
+    <Content Include="Views\Admin\SetPicIndex.cshtml" />
+    <Content Include="Views\Shared\_ZNOLayout.cshtml" />
+    <Content Include="Views\Test\ZNOList.cshtml" />
+    <Content Include="Views\Nav\ZNOFlexMenu.cshtml" />
+    <Content Include="temp\MenuHorizontal.cshtml" />
+    <Content Include="temp\FlexMenu.Mobile.cshtml" />
+    <Content Include="temp\Menu.cshtml" />
+    <Content Include="Views\Shared\QuestionSummary.cshtml" />
+    <Content Include="Views\Admin\SetAnswerPicIndex.cshtml" />
+    <Content Include="Views\Admin\SetQuestionPicIndex.cshtml" />
+    <Content Include="Views\Admin\SetLessionPicIndex.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -255,7 +280,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\Default\" />
+    <Folder Include="Content\css\" />
+    <Folder Include="Content\Videos\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

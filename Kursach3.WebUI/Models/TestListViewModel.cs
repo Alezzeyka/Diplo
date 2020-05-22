@@ -11,6 +11,6 @@ namespace Kursach3.WebUI.Models
         public IEnumerable<TestPreview> Tests { get; set; }
         public PagingInfo PagingInfo { get; set; }
         public string CurrentCategory { get; set; }
-        public IEnumerable<Question> questions { get; set; }
+        public IEnumerable<Picture> pictures { get; set; }
     }
 }

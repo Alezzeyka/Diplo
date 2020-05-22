@@ -11,32 +11,33 @@
         @using (Html.BeginForm("EditQuestion", "Admin",FormMethod.Post))
         {
             @Html.ValidationSummary();
-            <div class="panel-body">
-                @Html.Hidden("Id", Model.Id)
-                @Html.Hidden("TestID", Model.TestID)
-                @foreach (var property in ViewData.ModelMetadata.Properties)
+    <div class="panel-body">
+        @Html.Hidden("Id", Model.Id)
+        @Html.Hidden("TestID", Model.TestID)
+        @foreach (var property in ViewData.ModelMetadata.Properties)
+        {
+            
+                switch (property.PropertyName)
                 {
-                    if ((property.PropertyName != "Id") && (property.PropertyName != "TestID"))
-                    {
+                    case "Id":
+                    case "ImgId":
+                    case "TestID":
+                    case "NumOfCorrectAnswers":
+                        // Ничего не делать
+                        break;
+                    default:
                         <div class="form-group">
                             <label>@(property.DisplayName ?? property.PropertyName)</label>
-                                @Html.TextBox(property.PropertyName, null,
-                                    new { @class = "form-control" })
+                            @Html.TextBox(property.PropertyName, null, new { @class = "form-control" })
                             @Html.ValidationMessage(property.PropertyName)
                         </div>
-                    }
+                    break;
                 }
-            </div>
+            }
+        </div>
             <div class="panel-footer">
                 <input type="submit" value="Сохранить" class="btn btn-primary btn-lg" />
-                @Html.ActionLink("Отменить изменения и вернуться к списку", "Index", null, new { @class = "btn btn-warning btn-lg" })
+                @Html.ActionLink("Отменить изменения и вернуться к списку", "QuestionIndex", Model.TestID, new { @class = "btn btn-warning btn-lg" })
             </div>
         }
-    </div>
-    <div class="navbar navbar-default navbar-fixed-bottom">
-        <div class="container">
-            <p class="navbar-text pull-right">
-                © Alex Sh. @DateTime.Now.Year.ToString()
-            </p>
-        </div>
     </div>

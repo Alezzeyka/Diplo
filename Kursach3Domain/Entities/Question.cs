@@ -18,5 +18,9 @@ namespace Kursach3Domain.Entities
         [Display(Name = "Форма вопроса")]
         [Required(ErrorMessage = "Пожалуйста, введите форму вопроса")]
         public string QuestionForm { get; set; }
+        [HiddenInput(DisplayValue = false)]
+        public int ImgId { get; set; }
+        [HiddenInput(DisplayValue = false)]
+        public int NumOfCorrectAnswers { get; set; }
     }
 }

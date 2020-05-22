@@ -1,8 +1,9 @@
 ﻿@model IEnumerable<string>
-
-@Html.ActionLink("Главная", "List", "Test", null,
+@Html.ActionLink("Главная", "Index", "Default", null,
     new { @class = "btn btn-block btn-default btn-lg" })
-
+<div class="well-sm"><h2>Выберите тему</h2></div>
+@Html.ActionLink("Без категории", "List", "Test", null,
+    new { @class = "btn btn-block btn-default btn-lg" })
 @foreach (var link in Model)
 {
     @Html.RouteLink(link, new

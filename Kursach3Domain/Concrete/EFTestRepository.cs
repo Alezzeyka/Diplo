@@ -29,8 +29,10 @@ namespace Kursach3Domain.Concrete
                     dbEntry.Description = test.Description;
                     dbEntry.Course = test.Course;
                     dbEntry.Category = test.Category;
-                    dbEntry.ImageData = test.ImageData;
-                    dbEntry.ImageMimeType = test.ImageMimeType;
+                    dbEntry.ImgId = test.ImgId;
+                    dbEntry.ZNO = test.ZNO;
+                    dbEntry.NumOfQ = test.NumOfQ;
+                    dbEntry.MaxScore = test.MaxScore;
                 }
             }
             context.SaveChanges();

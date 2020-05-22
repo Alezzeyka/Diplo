@@ -11,6 +11,7 @@ using Kursach3Domain.Entities;
 
 namespace Kursach3.WebUI.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class RolesController : Controller
     {
         // GET: Roles
@@ -43,6 +44,7 @@ namespace Kursach3.WebUI.Controllers
                 });
                 if (result.Succeeded)
                 {
+                    TempData["message"] = string.Format("Изменения в роли \"{0}\" были сохранены", model.Name);
                     return RedirectToAction("Index");
                 }
                 else
@@ -75,6 +77,7 @@ namespace Kursach3.WebUI.Controllers
                     IdentityResult result = await RoleManager.UpdateAsync(role);
                     if (result.Succeeded)
                     {
+                        TempData["message"] = string.Format("Изменения в роли \"{0}\" были сохранены", role.Name);
                         return RedirectToAction("Index");
                     }
                     else
@@ -91,6 +94,7 @@ namespace Kursach3.WebUI.Controllers
             ApplicationRole role = await RoleManager.FindByIdAsync(id);
             if (role != null)
             {
+                TempData["message"] = string.Format("Роль \"{0}\" была удалена", role.Name);
                 IdentityResult result = await RoleManager.DeleteAsync(role);
             }
             return RedirectToAction("Index");

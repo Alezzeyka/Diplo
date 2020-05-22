@@ -17,5 +17,8 @@ namespace Kursach3Domain.Concrete
         public DbSet<TestPreview> Tests { get; set; }
         public DbSet<Question> Question { get; set; }
         public DbSet<Answers> Answers { get; set; }
+        public DbSet<Picture> Pictures { get; set; }
+        public DbSet<UserStats> Stats { get; set; }
+        public DbSet<Lessions> Lessions { get; set; }
     }
 }

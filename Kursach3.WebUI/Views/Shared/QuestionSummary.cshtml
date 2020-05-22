@@ -1,0 +1,17 @@
+﻿@model Kursach3.WebUI.Models.QuestionSummaryViewModel
+ <div class="well">
+        <p class="lead"><strong>@Model.Question.QuestionForm</strong></p>
+        @if (Model.Question.ImgId != 0)
+        {
+            <div class="img-thumbnail">@Html.Raw("<img style='width:150px; height:250px;'vspace='5' hspace='5' src=\"data:image/jpeg;base64," + Convert.ToBase64String(Model.Picture.Image) + "\"/>")</div>
+        }
+        @foreach (var a in Model.Answers)
+        {
+            int k = 0;
+            string name = "answer" + Model.Question.Id;
+            string value = a.AnswerForm.ToString() + ":" + a.IsCorrect.ToString() + ":" + a.Id + ":" + a.QuestionID + ":" + Model.Question.TestID;
+            
+                <input name="@name" type="radio" value="@value" required>
+                <span>@a.AnswerForm</span> <br />
+        }
+ </div>

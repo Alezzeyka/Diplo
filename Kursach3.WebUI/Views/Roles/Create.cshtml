@@ -4,16 +4,37 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Добавление роли</h2>
-
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-
-    <div>
-        @Html.ValidationSummary(true, "")
-        <p>Название: @Html.EditorFor(model => model.Name)</p>
-        <p>Описание: @Html.EditorFor(model => model.Description)</p>
-        <p><input type="submit" value="Добавить" /></p>
+<div class="panel">
+    <div class="panel-heading">
+        <h3>Добавление роли</h3>
     </div>
-}
+    @using (Html.BeginForm())
+    {
+<div class="panel-body">
+    @Html.ValidationSummary(true, "")
+    @foreach (var property in ViewData.ModelMetadata.Properties)
+    {
+        <div class="form-group">
+            <label>@(property.DisplayName ?? property.PropertyName)</label>
+            @if (property.PropertyName == "Description")
+            {
+                @Html.TextArea(property.PropertyName, null,
+                         new { @class = "form-control", rows = 5 })
+            }
+            else
+            {
+                @Html.TextBox(property.PropertyName, null, new { @class = "form-control" })
+            }
+            @Html.ValidationMessage(property.PropertyName)
+        </div>
+    }
+    
+</div>
+        <div class="panel-footer">
+            <input type="submit" value="Сохранить" class="btn btn-primary btn-lg" />
+            @Html.ActionLink("Отменить изменения и вернуться к списку", "Index", null, new { @class = "btn btn-warning btn-lg" })
+        </div>
+    }
+</div>
+
+

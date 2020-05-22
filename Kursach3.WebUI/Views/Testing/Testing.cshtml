@@ -1,67 +1,72 @@
 ﻿@using Kursach3.WebUI.Models
 @using Kursach3Domain.Entities
 @using Kursach3.WebUI.HtmlHelpers
-@model TestComplitingViewModel
+@model Kursach3.WebUI.Models.QuestionListviewModel
 @{
     Layout = "~/Views/Shared/_TestingLayout.cshtml";
-    int Id = 0;
+    ViewBag.Title = "Тест " + Model.Test.Category + " " + Model.Test.Course;
     int i = 1;
-    string s = Model.Tests.Theme;
-    ViewBag.Title = s;
 }
-    
-@{
-    TestPreview Currenttest = Model.Tests;
-    IEnumerable<Question> CurrQuests = Model.Questions;
-    IEnumerable<Answers> CurrAnswers = Model.Answers;
-}
-    <div class="well">
-        <span>Тема:</span>
-        <h2>@Currenttest.Theme</h2>
-        <h3>@Currenttest.Description</h3>
-        @using (Html.BeginForm("TestResult", "Testing"))
+@using (Html.BeginForm("TestResult", "Testing"))
+{
+    @Html.Hidden("Id",Model.Test.Id);
+    @Html.Hidden("listviewModel", Model);
+    <h1>Вопросы</h1>
+    <p>Выберите вопрос и в каждом вопросе выберите вариант ответа</p>
+    <ul class="nav nav-tabs">
+        @foreach (var p in Model.Questions)
         {
-            foreach (var p in CurrQuests)
+            string s = "#nav-quest" + p.Id.ToString();
+            if (i == 1)
             {
-                <div class="well">
-                    <div>Вопрос @i :</div>
-                    <div>@p.QuestionForm</div>
-                    @foreach (var a in CurrAnswers)
+                <li class="nav-item">
+                    <a class="navbar-link active" data-toggle="tab" href=@s>@i</a>
+                </li>
+
+            }
+            else
+            {
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href=@s>@i</a>
+                </li>
+
+            }
+            i = i + 1;
+        }
+    </ul>
+    i = 1;
+    <div class="tab-content">
+        @foreach (var p in Model.Questions)
+        {
+            string s = "nav-quest" + p.Id.ToString();
+            
+                <div class="tab-pane fade active" id=@s>
+                    <div class="jumbotron">
+                    <p class="lead"><strong>@p.QuestionForm</strong></p>
+                    @if (p.ImgId != 0)
                     {
-                        int k = 0;
-                        if (a.QuestionID == p.Id)
-                        {
-                            string name = "answer" + i.ToString();
-                            string value = a.AnswerForm.ToString() + ":" + a.IsCorrect.ToString() + ":" + a.Id + ":" + a.QuestionID + ":" + p.TestID;
-                            if (k == 0)
-                            {
-                                <input name="@name" type="radio" value="@value" required>
-                                <span>@a.AnswerForm</span> <br />
-                            }
-                            else
-                            {
-                                <input name="@name" type="radio" value="@value">
-                                <span>@a.AnswerForm</span> <br />
-                            }
-                        }
+                        Picture picture = Model.pictures.First(x => x.Id == p.ImgId);
+                        <div class="img-thumbnail">@Html.Raw("<img style='width:150px; height:250px;'vspace='5' hspace='5' src=\"data:image/jpeg;base64," + Convert.ToBase64String(picture.Image) + "\"/>")</div>
                     }
 
+                    @foreach (var a in Model.Answers.Where(x => x.QuestionID == p.Id))
+                    {
+                        string name = "answer" + i;
+                        string value = a.IsCorrect.ToString() + ":" + a.Id + ":" + a.QuestionID + ":" + p.TestID+":"+a.AnswerScore;
+                        <input name="@name" type="radio" value="@value" required>
+                        <span>@a.AnswerForm</span> <br />
+                    }
+                    </div>
                 </div>
-                Id = p.TestID;
-                i++;
-            }
-            <input class="btn btn-success btn-lg" type="submit" value="Ответить">
-            @Html.ActionLink("прекратить тест и вернуться назад", "List", "Test", null,
-       new { @class = "btn btn-warning btn-lg" })
-            @Html.Hidden("Theme", Currenttest.Theme)
+            i = i + 1;
         }
     </div>
-<div class="navbar navbar-default navbar-fixed-bottom">
-    <div class="container">
-        <p class="navbar-text pull-right">
-            © Alex Sh. @DateTime.Now.Year.ToString()
-        </p>
+    <div class="panel panel-footer text-center" style="margin-bottom:10%;">
+    <input class="btn btn-success btn-block btn-lg " type="submit" value="Ответить">
+    @Html.ActionLink("прекратить тест и вернуться назад", "List", "Test", null,
+new { @class = "btn btn-warning btn-block btn-lg" })
     </div>
-</div>
+}
+
 
 

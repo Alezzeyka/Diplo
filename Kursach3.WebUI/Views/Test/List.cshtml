@@ -9,19 +9,16 @@ ViewBag.Title = "Тесты";
     
     @foreach (var p in @Model.Tests)
     {
-        List<Question> questions = new List<Question>();
-        /*foreach (var q in Model.questions)
+        TestSummaryViewModel testSummary = new TestSummaryViewModel
         {
-            if (q.TestID == p.Id)
-            {
-                questions.Add(q);
-            }
-        }*/
-        TestSummaryViewModel testSummary = new TestSummaryViewModel {
-            Test = p,
-            questions = new List<Question>(Model.questions.Where(x => x.TestID == p.Id))
-    };
-        @Html.Partial("TestSummary",testSummary)
+            Test = p
+        };
+        if ((p.ImgId!=0)&&(p.NumOfQ>=1))
+        {
+            var Picture = Model.pictures.FirstOrDefault(x => x.Id == p.ImgId);
+            testSummary.Picture = Picture;
+            @Html.Partial("TestSummary", testSummary)
+        }
     }
     <div class="btn-group pull-right">
         @Html.PageLinks(Model.PagingInfo, x => Url.Action("List",

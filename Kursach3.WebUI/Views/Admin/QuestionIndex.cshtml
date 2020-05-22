@@ -7,42 +7,38 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     int Delete = 1;
 }
-<h3>Список вопросов</h3>
-<div class="panel-body">
-    <table class="table table-striped table-condensed table-bordered">
-        <tr>
-            <th class="text-right">ID</th>
-            <th>Формулировка вопроса</th>
-            <th class="text-right">Идентификатор теста</th>
-            <th class="text-center">Действия</th>
-        </tr>
-        @foreach (var item in Model.Questions)
-        {
-            <tr>
-                <td class="text-right">@item.Id</td>
-                <td>
-                    @item.QuestionForm
-                </td>
-                <td class="text-right">@item.TestID.ToString("Тест №#")</td>
-                <td class="text-center" style="width:150px">
-                    @Html.ActionLink("Изменить", "EditQuestion", new { item.Id }, new { @class = "btn btn-block btn-default btn-lg" })
-                    @Html.ActionLink("Ответы", "AnswerIndex", new { item.Id }, new { @class = "btn btn-block btn-default btn-lg" })
-                    @Html.ActionLink("Удалить", "EditQuestion", new { item.Id,Delete }, new { @class = "btn btn-block btn-danger btn-lg" })
-                </td>
-            </tr>
-        }
-    </table>
-</div>
-<div class="panel-footer">
-    <div class="container">
-        @Html.ActionLink("Главная", "List", "Test", null,
-        new { @class = "btn btn-default btn-lg" })
+    <h3>
+        Список вопросов  @Html.ActionLink("Главная", "Index", "Default", null, new { @class = "btn btn-default btn-lg" })
         @if (Model.TestID != 0)
         {@Html.ActionLink("Добавить вопрос", "CreateQuestion", new { Model.TestID }, new { @class = "btn btn-default btn-lg" })}
         @Html.ActionLink("Все Вопросы", "QuestionIndex", null, new { @class = "btn btn-default btn-lg" })
         @Html.ActionLink("Назад", "Index", null, new { @class = "btn btn-warning btn-lg" })
-        <p class="navbar-text pull-right">
-            © Alex Sh. @DateTime.Now.Year.ToString()
-        </p>
+    </h3>
+    <div class="panel-body">
+        <table class="table table-striped table-condensed table-bordered">
+            <tr>
+                <th class="text-right">ID</th>
+                <th>Формулировка вопроса</th>
+                <th class="text-right">Количество правильных ответов</th>
+                <th class="text-right">Идентификатор теста</th>
+                <th class="text-center">Действия</th>
+            </tr>
+            @foreach (var item in Model.Questions)
+            {
+        <tr>
+            <td class="text-right">@item.Id</td>
+            <td>
+                @item.QuestionForm
+            </td>
+            <td class="text-right">@item.NumOfCorrectAnswers.ToString("#")</td>
+            <td class="text-right">@item.TestID.ToString("Тест №#")</td>
+            <td class="text-center" style="width:150px">
+                @Html.ActionLink("Изменить", "EditQuestion", new { item.Id }, new { @class = "btn btn-block btn-default btn-lg" })
+                @Html.ActionLink("Ответы", "AnswerIndex", new { item.Id }, new { @class = "btn btn-block btn-default btn-lg" })
+                @Html.ActionLink("Удалить", "EditQuestion", new { item.Id, Delete }, new { @class = "btn btn-block btn-danger btn-lg" })
+            </td>
+        </tr>
+            }
+        </table>
     </div>
-</div>
+    

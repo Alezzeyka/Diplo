@@ -3,25 +3,29 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-<div>
-<h2>Роли @Html.ActionLink("Добавить роль", "Create", null, new { @class = "btn btn-default btn-lg" })</h2>
-</div>
-<table class="table">
-    <tr>
-        <th>Название</th>
-        <th>Описание</th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+    <h3>
+        Список Ролей @Html.ActionLink("Главная", "List", "Test", null, new { @class = "btn btn-default btn-lg" })
+        @Html.ActionLink("Добавить роль", "Create", null, new { @class = "btn btn-default btn-lg" })
+    </h3>
+<div class="panel-body">
+    <table class="table table-striped table-condensed table-bordered">
         <tr>
-            <td>@item.Name</td>
-            <td>@item.Description</td>
-            <td>
-                @Html.ActionLink("Изменить", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Удалить","Delete", new { id = item.Id })
-            </td>
+            <th>Название</th>
+            <th class="text-right">Описание</th>
+            <th class="text-center">Действия</th>
         </tr>
-    }
-</table>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td class="text-right">@item.Description</td>
+                <td class="text-center" style="width:150px">
+                    @Html.ActionLink("Изменить", "Edit", new { item.Id }, new { @class = "btn btn-block btn-default btn-lg" })
+                    @Html.ActionLink("Удалить", "Delete", new { id = item.Id }, new { @class = "btn btn-block btn-danger btn-lg" })
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+

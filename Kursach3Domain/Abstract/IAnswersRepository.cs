@@ -12,5 +12,6 @@ namespace Kursach3Domain.Abstract
         IEnumerable<Answers> Answers { get; }
         void SaveAnswer(Answers answers);
         Answers DeleteAnswer(int ID);
+        void DeleteAnswers(IEnumerable<Answers> answers);
     }
 }
