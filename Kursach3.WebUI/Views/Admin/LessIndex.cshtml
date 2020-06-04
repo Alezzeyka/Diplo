@@ -1,0 +1,45 @@
+﻿@using Kursach3Domain.Entities;
+@model IEnumerable<Lessions>
+
+@{
+    ViewBag.Title = "Админ панель: тесты";
+
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    int Delete = 1;
+}
+<h3>
+    Список тестов @Html.ActionLink("Главная", "Index", "Default", null, new { @class = "btn btn-default btn-lg" })
+    @Html.ActionLink("Добавить Лекцию", "CreateLess", null, new { @class = "btn btn-default btn-lg" })
+</h3>
+<div class="panel-body">
+    <table class="table table-striped table-condensed table-bordered">
+        <tr>
+            <th class="text-right">ID</th>
+            <th>Тема</th>
+            <th class="text-right">Класс</th>
+            <th class="text-center">Действия</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            int x = item.Id;
+            <tr>
+                <td class="text-right">@item.Id</td>
+                <td> @item.Theme</td>
+                <td class="text-right">@item.Course.ToString("# Класс")</td>
+                <td class="text-center" style="width:150px">
+                    @Html.ActionLink("Изменить", "EditLession", new { item.Id }, new { @class = "btn btn-block btn-default btn-lg" })
+                    @Html.ActionLink("Добавить картинку", "SetLessionPicIndex", new { item.Id }, new { @class = "btn btn-default btn-lg" })
+                    @Html.ActionLink("Абзацы", "ChapterIndex", new { item.Id }, new { @class = "btn btn-block btn-default btn-lg" })
+                    @Html.ActionLink("Удалить", "EditLession", new { item.Id, Delete }, new { @class = "btn btn-block btn-danger btn-lg" })
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+
+
+
+
+
+

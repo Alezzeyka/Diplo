@@ -11,5 +11,7 @@ namespace Kursach3Domain.Entities
         public string Email { get; set; }
         public string Name { get; set; }
         public string Role { get; set; }
+        public bool EmailConfirmed { get; set; }
+        public IEnumerable<UserStats> Stats { get; set; }
     }
 }

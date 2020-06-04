@@ -26,5 +26,6 @@ namespace Kursach3Domain.Entities
         public int ImgId { get; set; }
         [Display(Name ="Баллы за ответ (только для правильных)")]
         public int AnswerScore { get; set; }
+        public bool LineAnswer { get; set; }
     }
 }

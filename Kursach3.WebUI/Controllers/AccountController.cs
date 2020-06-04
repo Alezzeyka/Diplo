@@ -12,7 +12,9 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System.Security.Claims;
 using System.Data.Entity;
+using Kursach3Domain.Abstract;
 using Kursach3Domain.Concrete;
+using System.Net.Mail;
 namespace Kursach3.WebUI.Controllers
 {
     public class AccountController : Controller
@@ -31,6 +33,11 @@ namespace Kursach3.WebUI.Controllers
                 return HttpContext.GetOwinContext().GetUserManager<ApplicationRoleManager>();
             }
         }
+        private IStatsRepository statsRepository;
+        public AccountController(IStatsRepository stats)
+        {
+            statsRepository = stats;
+        }
         public ActionResult Register()
         {
             return View();
@@ -43,17 +50,36 @@ namespace Kursach3.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                ApplicationUser user = new ApplicationUser { UserName = model.Email, Email = model.Email, Name = model.Name };
+                ApplicationUser user = new ApplicationUser { UserName = model.Email, Email = model.Email, Name = model.Name, EmailConfirmed = false };
 
                 IdentityResult result = await UserManager.CreateAsync(user, model.Password);
-                var Role = RoleManager.Roles.First(x => x.Name == "Пользователь");
+                var Role = RoleManager.Roles.First(x => x.Name == "Користувач");
                 if (result.Succeeded)
                 {
                     if (Role != null)
                     {
                         UserManager.AddToRole(user.Id, Role.Name);
                     }
-                    return RedirectToAction("Login", "Account");
+                    // наш email с заголовком письма
+                    MailAddress from = new MailAddress("cybertestcorpmail@gmail.com", "Реєстрація");
+                    // кому отправляем
+                    MailAddress to = new MailAddress(user.Email);
+                    // создаем объект сообщения
+                    MailMessage m = new MailMessage(from, to);
+                    // тема письма
+                    m.Subject = "Підтвердження реєстрації";
+                    // текст письма - включаем в него ссылку
+                    m.Body = string.Format("Для завершення реєстрації перейдіть за посиланням:" +
+                                    "<a href=\"{0}\" title=\"Підтвердити реєстрацію\">{0}</a>",
+                        Url.Action("ConfirmEmail", "Account", new { Token = user.Id, Email = user.Email }, Request.Url.Scheme));
+                    m.IsBodyHtml = true;
+                    // адрес smtp-сервера, с которого мы и будем отправлять письмо
+                    SmtpClient smtp = new System.Net.Mail.SmtpClient("smtp.gmail.com",587);
+                    smtp.EnableSsl = true;
+                    // логин и пароль
+                    smtp.Credentials = new System.Net.NetworkCredential("cybertestcorpmail@gmail.com", "AleZZeYkA12_45_12");
+                    smtp.Send(m);
+                    return RedirectToAction("Confirm", "Account", new { Email = user.Email });
                 }
                 else
                 {
@@ -64,6 +90,39 @@ namespace Kursach3.WebUI.Controllers
                 }
             }
             return View(model);
+        }
+        [AllowAnonymous]
+        public ActionResult Confirm(string Email)
+        {
+            TempData["message"] = string.Format("На поштову адресу \"{0}\" Вам надіслани подальщі інструкції по завершенню реєстрації", Email);
+            return RedirectToAction("Index","Default");
+        }
+
+        [AllowAnonymous]
+        public async Task<ActionResult> ConfirmEmail(string Token, string Email)
+        {
+            ApplicationUser user = this.UserManager.FindById(Token);
+            if (user != null)
+            {
+                if (user.Email == Email)
+                {
+                    user.EmailConfirmed = true;
+                    await UserManager.UpdateAsync(user);
+                    ClaimsIdentity claim = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
+                    AuthenticationManager.SignOut();
+                    AuthenticationManager.SignIn(new AuthenticationProperties { IsPersistent = true }, claim);
+                    TempData["message"] = string.Format("Вітаємо, {0} ви завершили реєстрацію та підтвердили свою пошту, ласкаво просимо до нашого ресурсу!", user.Name);
+                    return RedirectToAction("Index", "Default", new { ConfirmedEmail = user.Email });
+                }
+                else
+                {
+                    return RedirectToAction("Confirm", "Account", new { Email = user.Email });
+                }
+            }
+            else
+            {
+                return RedirectToAction("Confirm", "Account", new { Email = "" });
+            }
         }
         private IAuthenticationManager AuthenticationManager
         {
@@ -92,16 +151,19 @@ namespace Kursach3.WebUI.Controllers
                 }
                 else
                 {
-                    ClaimsIdentity claim = await UserManager.CreateIdentityAsync(user,
-                                            DefaultAuthenticationTypes.ApplicationCookie);
-                    AuthenticationManager.SignOut();
-                    AuthenticationManager.SignIn(new AuthenticationProperties
+                    if (user.EmailConfirmed == true)
                     {
-                        IsPersistent = true
-                    }, claim);
-                    if (String.IsNullOrEmpty(returnUrl))
-                        return RedirectToAction("Index", "Default");
-                    return Redirect(returnUrl);
+                        ClaimsIdentity claim = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
+                        AuthenticationManager.SignOut();
+                        AuthenticationManager.SignIn(new AuthenticationProperties { IsPersistent = true }, claim);
+                        if (String.IsNullOrEmpty(returnUrl))
+                            return RedirectToAction("Index", "Default");
+                        return Redirect(returnUrl);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Ви не завершили реєстрацію, будь ласка підтвердіть свій поштовий адрес.");
+                    }
                 }
             }
             ViewBag.returnUrl = returnUrl;
@@ -113,7 +175,7 @@ namespace Kursach3.WebUI.Controllers
             return RedirectToAction("Index","Default");
         }
         [HttpGet]
-        [Authorize(Roles = "Пользователь")]
+        [Authorize(Roles = "Користувач")]
         public ActionResult Delete()
         {
             return View();
@@ -121,7 +183,7 @@ namespace Kursach3.WebUI.Controllers
 
         [HttpPost]
         [ActionName("Delete")]
-        [Authorize(Roles = "Пользователь")]
+        [Authorize(Roles = "Користувач")]
         public async Task<ActionResult> DeleteConfirmed()
         {
             ApplicationUser user = await UserManager.FindByEmailAsync(User.Identity.Name);
@@ -135,7 +197,7 @@ namespace Kursach3.WebUI.Controllers
             }
             return RedirectToAction("List", "Test");
         }
-        [Authorize(Roles = "Пользователь")]
+        [Authorize(Roles = "Користувач")]
         public async Task<ActionResult> Edit()
         {
             ApplicationUser user = await UserManager.FindByEmailAsync(User.Identity.Name);
@@ -147,7 +209,7 @@ namespace Kursach3.WebUI.Controllers
             return RedirectToAction("Index", "Default");
         }
         [HttpPost]
-        [Authorize(Roles = "Пользователь")]
+        [Authorize(Roles = "Користувач")]
         public async Task<ActionResult> Edit(EditModel model)
         {
             ApplicationUser user = await UserManager.FindByEmailAsync(User.Identity.Name);
@@ -157,7 +219,7 @@ namespace Kursach3.WebUI.Controllers
                 IdentityResult result = await UserManager.UpdateAsync(user);
                 if (result.Succeeded)
                 {
-                    TempData["message"] = string.Format("Изменения сохранены");
+                    TempData["message"] = string.Format("Зміни збережені");
                     return RedirectToAction("Index", "Account");
                 }
                 else
@@ -172,7 +234,7 @@ namespace Kursach3.WebUI.Controllers
 
             return View(model);
         }
-        [Authorize(Roles ="Пользователь")]
+        [Authorize(Roles = "Користувач")]
         public async Task<ActionResult> Index()
         {
             ApplicationUser user = await UserManager.FindByEmailAsync(User.Identity.Name);
@@ -186,7 +248,9 @@ namespace Kursach3.WebUI.Controllers
             {
                 Name = user.Name,
                 Email = user.Email,
-                Role = roles
+                Role = roles,
+                EmailConfirmed=user.EmailConfirmed,
+                Stats = statsRepository.Stats.Where(x=>x.userId==user.Id)
             };
             return View(userInfo);
         }

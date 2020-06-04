@@ -3,42 +3,52 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_StartLayout.cshtml";
 }
-    <div class="text-center">
-        <div class="img-thumbnail">
-            <a class="navbar-brand" href="@Url.Action("List", "Test",null)"><img src="~/Content/img/2.jpg" style="width:250px;height:250px" alt=""></a>
-            <div>Тесты</div>
-        </div>
-        <div class="img-thumbnail">
-            <a class="navbar-brand" href="@Url.Action("ZNOList","Test")"><img src="~/Content/img/3.jpg" style="width:250px;height:250px" alt=""></a>
-            <div>ЗНО тесты</div>
-        </div>
-        <div class="img-thumbnail">
-            <a class="navbar-brand" href="@Url.Action("List","Lessions")"><img src="~/Content/img/1.jpg" style="width:250px;height:250px" alt=""></a>
-            <div>Уроки по истории</div>
-        </div>
-        <div class="img-thumbnail">
-            <a class="navbar-brand" href="@Url.Action("Register","Account")"><img src="~/Content/img/4.jpg" style="width:250px;height:250px" alt=""></a>
-            <div>Регистрация</div>
-        </div>
-        <h3>
-            Добро пожаловать на наш сайт!
-        </h3>
-        <p>
-            На данном сайте вы сможете приобрести и оттачить свои знания по истории Украины и подготовиться к предстоящим тестам
-        </p>
-        <p>
-            Если в ы впервые на нашем сайте - зарегистрируйтесь.
-        </p>
-        <p>
-            Учетная запись на нашем сайте даст вам возможность проходить проверочные тесты, читать маетриал по теме, а также проходить тесты в формате ЗНО.
-        </p>
-        <p>
-            Также, это позволит просматривать статистику пройденых вами тестов
-        </p>
-        <p>
-            Удачи, и приятного польования нашим сайтом
-        </p>
-        <h3>
-            С уважением, команда CyberTest
-        </h3>
+<div class="text-center">
+    <div class="img-thumbnail">
+        <a class="navbar-brand" href="@Url.Action("List", "Test",null)"><img src="~/Content/img/2.jpg" style="width:250px;height:250px" alt=""></a>
+        <div>Тести</div>
     </div>
+    <div class="img-thumbnail">
+        <a class="navbar-brand" href="@Url.Action("ZNOList","Test")"><img src="~/Content/img/3.jpg" style="width:250px;height:250px" alt=""></a>
+        <div>ЗНО тести</div>
+    </div>
+    <div class="img-thumbnail">
+        <a class="navbar-brand" href="@Url.Action("LessionsList","Test")"><img src="~/Content/img/1.jpg" style="width:250px;height:250px" alt=""></a>
+        <div>Уроки з історії</div>
+    </div>
+    @if (User.Identity.IsAuthenticated == false)
+    {
+        <div class="img-thumbnail">
+            <a class="navbar-brand" href="@Url.Action("Register", "Account")"><img src="~/Content/img/4.jpg" style="width:250px;height:250px" alt=""></a>
+            <div>Реєстрація</div>
+        </div>
+    }
+    else
+    {
+        <div class="img-thumbnail">
+            <a class="navbar-brand" href="@Url.Action("Index", "Account")"><img src="~/Content/img/5.jpg" style="width:250px;height:250px" alt=""></a>
+            <div>Мій кабінет</div>
+        </div>
+    }
+    <h3>
+        Вітаємо на нашому сайті!
+    </h3>
+    <p>
+        На цьому сайті ви зможете отримати та воідточити свої знання з історії України, а також підготуватися до тестів.
+    </p>
+    <p>
+        Якщо ви вперше на нашому сайті, вам необхідно зареєструватись.
+    </p>
+    <p>
+        Обліковий запис на нашому сайті надасть можливість вам проходити різноманітні тести, вивчати матеріали з історії України та підготуватись до ЗНО.
+    </p>
+    <p>
+        Також, ви зможете отримати статистику проходження своїх тестів, щоб покращити свій результат.
+    </p>
+    <p>
+        Нехай вам щастить, та успіхів вам у навчанні
+    </p>
+    <h3>
+        З повагою, команда CyberTest
+    </h3>
+</div>

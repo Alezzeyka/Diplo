@@ -18,7 +18,7 @@
 <body>
     <div class="navbar navbar-inverse" role="navigation">
         <a class="navbar-brand" href="/">
-            <span class="hidden-xs">CyberTest - онлайн тесты</span>
+            <span class="hidden-xs">CyberTest - онлайн тести</span>
 
             <div class="visible-xs">Cyber</div>
             <div class="visible-xs">Tests</div>
@@ -26,12 +26,16 @@
         <span class="navbar-right ">
             @if (User.Identity.IsAuthenticated == false)
             {
-                <a class="navbar-brand left" href="@Url.Action("Login", "Account")">Войти</a>
+                <a class="navbar-brand left" href="@Url.Action("Login", "Account")">Увійти</a>
                 <span class="navbar-text left">/</span>
-                <a class="navbar-brand left" href="@Url.Action("Register", "Account")">Регистрация</a>
+                <a class="navbar-brand left" href="@Url.Action("Register", "Account")">Реєстрація</a>
             }
             else
             {
+                if (User.IsInRole("admin") == true)
+                {
+                    <a class="navbar-brand left" href="@Url.Action("Index", "Admin")">Адмін-частина</a>
+                }
                 <a class="navbar-brand left" href="@Url.Action("Index", "Account")">@User.Identity.Name</a>
             }
         </span>

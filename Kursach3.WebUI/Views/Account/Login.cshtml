@@ -7,24 +7,24 @@
 }
     <div class="panel">
         <div class="panel-heading">
-            <h3>Вход в систему</h3>
+            <h3>Вхід в систему</h3>
         </div>
         <div class="panel-body">
-            <p class="lead">Пожалуйста, войдите в систему, чтобы продолжить:</p>
+            <p class="lead">Будь ласка, увійдіть до системи щоб продовжити:</p>
             @using (Html.BeginForm())
             {
                 @Html.ValidationSummary()
                 @Html.AntiForgeryToken()
                 <div class="form-group">
-                    <label>Имя пользователя:</label>
+                    <label>Пошта:</label>
                     @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
                 </div>
                 <div class="form-group">
                     <label>Пароль:</label>
                     @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
                 </div>
-                <input type="submit" value="Войти" class="btn btn-primary btn-lg" />
-                @Html.ActionLink("Регистрация", "Register", "Account", new { @class = "btn btn-default btn-lg" })
+                <input type="submit" value="Увійти" class="btn btn-primary btn-lg" />
+                @Html.ActionLink("Реєстрація", "Register", "Account", new { @class = "btn btn-default btn-lg" })
             }
 
         </div>

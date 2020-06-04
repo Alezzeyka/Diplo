@@ -3,22 +3,25 @@
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
-<h2>Редактировать данные профиля</h2>
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
 
-    <div>
-        @Html.ValidationSummary(true, "")
-        <div>
-            <p>Ваше имя: @Html.EditorFor(model => model.Name)</p>
-        </div>
+<div class="panel">
+    <div class="panel-heading">
+        <h3>Редагування профілю</h3>
+    </div>
 
-        <div>
-            <div>
-                <input type="submit" value="Сохранить" />
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="panel-body">
+            <div class="form-group">
+                <label>Ваше ім'я:</label>
+                @Html.TextBoxFor(model => model.Name,
+                   new { @class = "form-control" })
             </div>
         </div>
-    </div>
-}
-
+        <div class="panel-footer">
+            <input type="submit" value="Сохранить" class="btn btn-primary btn-lg" />
+            @Html.ActionLink("Скасувати", "Index", null, new { @class = "btn btn-warning btn-lg" })
+        </div>
+    }
+</div>

@@ -149,20 +149,40 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\css\bootstrap-grid.css" />
+    <Content Include="Content\css\bootstrap-grid.min.css" />
+    <Content Include="Content\css\bootstrap-reboot.css" />
+    <Content Include="Content\css\bootstrap-reboot.min.css" />
+    <Content Include="Content\css\bootstrap.css" />
+    <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\ErrorStyles.css" />
     <Content Include="Content\img\1.jpg" />
+    <Content Include="Content\img\5.jpg" />
     <Content Include="Content\img\2.jpg" />
     <Content Include="Content\img\3.jpg" />
     <Content Include="Content\img\4.jpg" />
-    <Content Include="Content\js\classie.js" />
-    <Content Include="Content\js\modernizr.custom.js" />
-    <Content Include="Content\js\tiltSlider.js" />
+    <Content Include="Content\js\bootstrap.bundle.js" />
+    <Content Include="Content\js\bootstrap.bundle.min.js" />
+    <Content Include="Content\js\bootstrap.js" />
+    <Content Include="Content\js\bootstrap.min.js" />
     <Content Include="Content\Site.css" />
+    <Content Include="Content\StyleSheet1.css" />
+    <Content Include="Content\StyleSheet2.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\js\bootstrap.bundle.js.map" />
+    <Content Include="Content\js\bootstrap.bundle.min.js.map" />
+    <Content Include="Content\js\bootstrap.js.map" />
+    <Content Include="Content\js\bootstrap.min.js.map" />
+    <Content Include="Content\css\bootstrap-grid.css.map" />
+    <Content Include="Content\css\bootstrap-grid.min.css.map" />
+    <Content Include="Content\css\bootstrap-reboot.css.map" />
+    <Content Include="Content\css\bootstrap-reboot.min.css.map" />
+    <Content Include="Content\css\bootstrap.css.map" />
+    <Content Include="Content\css\bootstrap.min.css.map" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -199,7 +219,14 @@
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Models\AdminIndexViewModel.cs" />
     <Compile Include="Models\AnswerEditViewModel.cs" />
+    <Compile Include="Models\AnswerLineEditViewModel.cs" />
+    <Compile Include="Models\AnswerLineIndexViewModel.cs" />
     <Compile Include="Models\AnswersIndexViewModel.cs" />
+    <Compile Include="Models\ChapterIndexViewModel.cs" />
+    <Compile Include="Models\ChapterSummaryViewModel.cs" />
+    <Compile Include="Models\LessionsListViewModel.cs" />
+    <Compile Include="Models\LessionSummaryViewModel.cs" />
+    <Compile Include="Models\LessionViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\QuestionIndexViewModel.cs" />
     <Compile Include="Models\QuestionListviewModel.cs" />
@@ -213,6 +240,7 @@
     <Compile Include="Models\TestResultViewModel.cs" />
     <Compile Include="Models\TestSummaryViewModel.cs" />
     <Compile Include="Models\UserIndexModel.cs" />
+    <Compile Include="Models\FilePicIndexViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -263,6 +291,23 @@
     <Content Include="Views\Admin\SetAnswerPicIndex.cshtml" />
     <Content Include="Views\Admin\SetQuestionPicIndex.cshtml" />
     <Content Include="Views\Admin\SetLessionPicIndex.cshtml" />
+    <Content Include="Views\Admin\LessIndex.cshtml" />
+    <Content Include="Views\Admin\EditLession.cshtml" />
+    <Content Include="Views\Admin\AnswerLineIndex.cshtml" />
+    <Content Include="Views\Admin\EditAnswerLine.cshtml" />
+    <Content Include="Views\Test\LessionsList.cshtml" />
+    <Content Include="Views\Nav\LessionMenu.cshtml" />
+    <Content Include="Views\Shared\_LessionsLayout.cshtml" />
+    <Content Include="Views\Shared\LessionSummary.cshtml" />
+    <Content Include="Views\Test\Lession.cshtml" />
+    <Content Include="Views\Admin\Upload.cshtml" />
+    <Content Include="Views\Admin\FileIndex.cshtml" />
+    <Content Include="Views\Admin\ChapterIndex.cshtml" />
+    <Content Include="Views\Admin\EditChapter.cshtml" />
+    <Content Include="Views\Admin\SetChapterPicIndex.cshtml" />
+    <Content Include="Views\Admin\SetVideoIndex.cshtml" />
+    <Content Include="Views\Admin\SetPDFIndex.cshtml" />
+    <Content Include="Views\Shared\ChapterSummary.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -280,8 +325,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Content\css\" />
     <Folder Include="Content\Videos\" />
+    <Folder Include="Files\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

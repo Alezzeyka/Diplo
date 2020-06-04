@@ -19,4 +19,8 @@
 .validation-summary-valid {
     display: none;
 }
+.wrap-normal {
+    word-wrap: break-word;
+}
+
 

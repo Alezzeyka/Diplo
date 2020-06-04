@@ -30,6 +30,7 @@ namespace Kursach3Domain.Concrete
                     dbEntry.QuestionID = answers.QuestionID;
                     dbEntry.ImgId = answers.ImgId;
                     dbEntry.AnswerScore = answers.AnswerScore;
+                    dbEntry.LineAnswer = answers.LineAnswer;
                 }
             }
             context.SaveChanges();

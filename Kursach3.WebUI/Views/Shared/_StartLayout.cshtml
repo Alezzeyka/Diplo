@@ -12,37 +12,39 @@
     <title></title>
 </head>
 <body>
-    <div class="navbar navbar-inverse" role="navigation">
+    <div class="navbar navbar-inverse" role="navigation" style="margin-bottom:0px">
         <a class="navbar-brand" href="/">
-            <span class="hidden-xs">CyberTest - онлайн тесты</span>
+            <span class="hidden-xs">CyberTest - онлайн тести</span>
 
             <div class="visible-xs">Cyber</div>
             <div class="visible-xs">Tests</div>
         </a>
-        <span class="navbar-right ">
-            @if (User.Identity.IsAuthenticated == false)
-            {
-                <a class="navbar-brand left" href="@Url.Action("Login", "Account")">Войти</a>
-                <span class="navbar-text left">/</span>
-                <a class="navbar-brand left" href="@Url.Action("Register", "Account")">Регистрация</a>
-            }
-            else
-            {
-                <a class="navbar-brand left" href="@Url.Action("Index", "Account")">@User.Identity.Name</a>
-            }
-        </span>
     </div>
-    <div class="col-xs-10 col-sm-12">
+    @if (User.IsInRole("admin") == true)
+    {
+        @Html.ActionLink("Адмін-частина", "Index", "Admin", null,
+                new { @class = "btn btn-primary btn-block btn-lg" })
+    }
+    @if (TempData["message"] != null)
+    {
+        <div class="alert alert-success">@TempData["message"]</div>
+    }
+    @if (TempData["error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["error"]</div>
+    }
+    <div class="col-xs-10 col-sm-12" style="margin-top:20px">
+
         @RenderBody()
     </div>
     <div class="navbar navbar-fixed-bottom">
-    <div class="panel-footer">
-        <div class="container">
-            <p class="navbar-text pull-right">
-                © Alex Sh. @DateTime.Now.Year.ToString()
-            </p>
+        <div class="panel-footer">
+            <div class="container">
+                <p class="navbar-text pull-right">
+                    © Alex Sh. @DateTime.Now.Year.ToString()
+                </p>
+            </div>
         </div>
-    </div>
     </div>
 </body>
 </html>

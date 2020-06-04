@@ -3,9 +3,13 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/Content/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/css/bootstrap-grid.css" rel="stylesheet" />
+    <link href="~/Content/css/bootstrap-reboot.css" rel="stylesheet" />
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
     <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
     <link href="~/Content/ErrorStyles.css" rel="stylesheet" />
+
     <title>@ViewBag.Title</title>
     <style>
         .navbar-right {
@@ -17,11 +21,27 @@
 </head>
 <body>
     <div class="navbar navbar-inverse" role="navigation">
-        <a class="navbar-brand" href="/">
-            <span class="hidden-xs">CyberTest - онлайн тесты</span>
-            <div class="visible-xs">Cyber</div>
-            <div class="visible-xs">Tests</div>
+        <span>
+        <a class="navbar-brand text-left" style="width:100%" href="/">
+            <span class="hidden-xs">CyberTest - онлайн тести</span>
         </a>
+         </span>
+        <span class="text-right">
+            @if (User.Identity.IsAuthenticated == false)
+            {
+                <a class="navbar-brand right" href="@Url.Action("Login", "Account")">Увійти</a>
+                <span class="navbar-text right">/</span>
+                <a class="navbar-brand right" href="@Url.Action("Register", "Account")">Реєстрація</a>
+            }
+            else
+            {
+                if (User.IsInRole("admin") == true)
+                {
+                <a class="navbar-brand right" href="@Url.Action("Index", "Admin")">Адмін-частина</a>
+                }
+                <a class="navbar-brand right" href="@Url.Action("Index", "Account")">@User.Identity.Name</a>
+            }
+        </span>
     </div>
     <div style="margin-left:10%;margin-right:10%;">
         @if (TempData["message"] != null)
@@ -33,20 +53,21 @@
             <div class="alert alert-danger">@TempData["error"]</div>
         }
         <div class="container-fluid">
-        @RenderBody()
+            @RenderBody()
         </div>
     </div>
-    <div class="navbar navbar-fixed-bottom">
-        <div class="panel-footer">
-            <div class="container">
-                <p class="navbar-text pull-right">
+    <div class="navbar navbar-fixed-bottom" >
+        <div class="panel-footer" style="width:100%">
+            <div class="container pull-right" style="width:100%">
+                <div class="navbar-text text-right" style="width:100%">
                     © Alex Sh. @DateTime.Now.Year.ToString()
-                </p>
+                </div>
             </div>
         </div>
     </div>
+    <script src="~/Content/js/bootstrap.js"></script>
+    <script src="~/Content/js/bootstrap.bundle.js"></script>
     <script src="~/Scripts/jquery-3.3.1.min.js"></script>
-    <!-- Bootstrap JS -->
     <script src="~/Scripts/bootstrap.js"></script>
 </body>
 </html>

@@ -6,14 +6,24 @@
     ViewBag.Title = "Админ панель: ответы";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     int Delete = 1;
+    int Line = 1;
 }
     <h3>
-        Список тестов @Html.ActionLink("Главная", "Index", "Default", null, new { @class = "btn btn-default btn-lg" })
-        @if (Model.QuestionID != 0)
-        {@Html.ActionLink("Добавить ответ", "CreateAnswer", new { Model.QuestionID }, new { @class = "btn btn-default btn-lg" })}
+        Список ответов @Html.ActionLink("Главная", "Index", "Default", null, new { @class = "btn btn-default btn-lg" })
         @Html.ActionLink("Все ответы", "AnswerIndex", null, new { @class = "btn btn-default btn-lg" })
-        @Html.ActionLink("Назад", "QuestionIndex", new { Model.QuestionID }, new { @class = "btn btn-warning btn-lg" })
+        @if (Model.Line == 0)
+        {
+            @Html.ActionLink("Добавить ответ", "CreateAnswer", new { Model.QuestionID }, new { @class = "btn btn-default btn-lg" });
+            @Html.ActionLink("Назад", "QuestionIndex", new { Id = Model.QuestionID }, new { @class = "btn btn-warning btn-lg" })
+        }
+        else
+        {
+            @Html.ActionLink("Добавить ответ", "CreateAnswer", new { Model.QuestionID, Line }, new { @class = "btn btn-default btn-lg" });
+            @Html.ActionLink("Назад", "AnswerLineIndex", new { Id=Model.QuestionID}, new { @class = "btn btn-warning btn-lg" })
+        }
+
     </h3>
+
 <div class="panel-body">
     <table class="table table-striped table-condensed table-bordered">
         <tr>
@@ -34,6 +44,7 @@
                 <td class="text-right">@item.IsCorrect</td>
                 <td class="text-center" style="width:150px">
                     @Html.ActionLink("Изменить", "EditAnswer", new { item.Id }, new { @class = "btn btn-block btn-default btn-lg" })
+                    @Html.ActionLink("Добавить картинку", "SetAnswerPicIndex", new { item.Id }, new { @class = "btn btn-default btn-lg" })
                     @Html.ActionLink("Удалить", "EditAnswer", new { item.Id, Delete }, new { @class = "btn btn-block btn-danger btn-lg" })
                 </td>
             </tr>

@@ -13,19 +13,19 @@ namespace Kursach3Domain.Entities
         [Key]
         [HiddenInput(DisplayValue = false)]
         public int Id { get; set; }
-        [Display(Name = "Тема")]
+        [Display(Name = "Тема, Будет учитываться только для обычных тестов")]
         [Required(ErrorMessage = "Пожалуйста, введите тему теста")]
         public string Theme { get; set; }
         [DataType(DataType.MultilineText)]
-        [Display(Name = "Описание")]
+        [Display(Name = "Описание, Будет учитываться только для обычных тестов")]
         [Required(ErrorMessage = "Пожалуйста, введите описание теста")]
         public string Description { get; set; }
-        [Display(Name = "Сессия ЗНО (Только для тестов в формате ЗНО)")]
+        [Display(Name = "Сессия ЗНО (Только для тестов в формате ЗНО, для обычных тестов будет выбрано автоматически \"История украины\")")]
         [Required(ErrorMessage = "Пожалуйста, введите категорию теста")]
         public string Category { get; set; }
-        [Display(Name = "Класс")]
+        [Display(Name = "Класс или Год")]
         [Required]
-        [Range(1, int.MaxValue, ErrorMessage = "Пожалуйста, введите положительное значение для класса")]
+        [Range(1, int.MaxValue, ErrorMessage = "Пожалуйста, введите положительное значение для класса или года")]
         public int Course { get; set; }
         [HiddenInput(DisplayValue = false)]
         public int ImgId { get; set; }

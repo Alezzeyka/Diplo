@@ -12,7 +12,7 @@
         @if (Model.TestID != 0)
         {@Html.ActionLink("Добавить вопрос", "CreateQuestion", new { Model.TestID }, new { @class = "btn btn-default btn-lg" })}
         @Html.ActionLink("Все Вопросы", "QuestionIndex", null, new { @class = "btn btn-default btn-lg" })
-        @Html.ActionLink("Назад", "Index", null, new { @class = "btn btn-warning btn-lg" })
+        @Html.ActionLink("Назад", "Index",null, new { @class = "btn btn-warning btn-lg" })
     </h3>
     <div class="panel-body">
         <table class="table table-striped table-condensed table-bordered">
@@ -20,6 +20,8 @@
                 <th class="text-right">ID</th>
                 <th>Формулировка вопроса</th>
                 <th class="text-right">Количество правильных ответов</th>
+                <th class="text-right">Количество баллов за ответы</th>
+                <th class="text-right">Вопрос на сопоставление?</th>
                 <th class="text-right">Идентификатор теста</th>
                 <th class="text-center">Действия</th>
             </tr>
@@ -31,10 +33,20 @@
                 @item.QuestionForm
             </td>
             <td class="text-right">@item.NumOfCorrectAnswers.ToString("#")</td>
+            <td class="text-right">@item.Score</td>
+            <td class="text-right">@item.MultiChoice</td>
             <td class="text-right">@item.TestID.ToString("Тест №#")</td>
             <td class="text-center" style="width:150px">
                 @Html.ActionLink("Изменить", "EditQuestion", new { item.Id }, new { @class = "btn btn-block btn-default btn-lg" })
-                @Html.ActionLink("Ответы", "AnswerIndex", new { item.Id }, new { @class = "btn btn-block btn-default btn-lg" })
+                @Html.ActionLink("Добавить картинку", "SetQuestionPicIndex", new { item.Id }, new { @class = "btn btn-default btn-lg" })
+                @if (item.MultiChoice == false)
+                {
+                    @Html.ActionLink("Ответы", "AnswerIndex", new { Id = item.Id, LineId = 0 }, new { @class = "btn btn-block btn-default btn-lg" })
+                }
+                else
+                {
+                    @Html.ActionLink("Линии ответов", "AnswerLineIndex", new { item.Id }, new { @class = "btn btn-block btn-default btn-lg" })
+                }
                 @Html.ActionLink("Удалить", "EditQuestion", new { item.Id, Delete }, new { @class = "btn btn-block btn-danger btn-lg" })
             </td>
         </tr>

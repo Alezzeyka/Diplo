@@ -15,6 +15,8 @@
     <div class="panel-body btn-group-toggle">
         @Html.HiddenFor(m => m.Id)
         @Html.HiddenFor(m => m.QuestionID)
+        @Html.HiddenFor(m=>m.ImgId)
+        @Html.HiddenFor(m=>m.LineAnswer)
         @foreach (var property in ViewData.ModelMetadata.Properties)
         {
             switch (property.PropertyName)
@@ -22,6 +24,7 @@
                 case "Id":
                 case "ImgId":
                 case "QuestionID":
+                case "LineAnswer":
                     // Ничего не делать
                     break;
                 default:
@@ -44,10 +47,17 @@
             }
         }
     </div>
-         <div class="panel-footer">
-         <input type="submit" value="Сохранить" class="btn btn-primary btn-lg" />
-         @Html.ActionLink("Отменить изменения и вернуться к списку", "AnswerIndex", Model.QuestionID, new { @class = "btn btn-warning btn-lg" })
-         </div>
+    <div class="panel-footer">
+        <input type="submit" value="Сохранить" class="btn btn-primary btn-lg" />
+        @if (Model.LineAnswer == false)
+        {
+            @Html.ActionLink("Отменить изменения и вернуться к списку", "AnswerIndex", new { ID = Model.QuestionID, LineId=0 }, new { @class = "btn btn-warning btn-lg" })
+        }
+        else
+        {
+            @Html.ActionLink("Отменить изменения и вернуться к списку", "AnswerIndex", new { Id = 0 , LineID = Model.QuestionID }, new { @class = "btn btn-warning btn-lg" })
+        }
+    </div>
          }
     </div>
             

@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewBag.Title = "Upload";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+    <div class="panel">
+        <div class="panel-heading">
+            <h3>Добавление файла</h3>
+        </div>
+        @using (Html.BeginForm("Upload", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+    <div class="panel-body">
+        <div class="form-group">
+            @Html.ValidationSummary()
+            <input type="file" name="upload" class="btn btn-default btn-block btn-lg" />
+            <br>
+            <label>Название файла</label>
+            <p><input name="Name" class = "form-control" type="text" pattern="[A-Za-zА-Яа-яЁё0-9]{40}]" required></p>
+            
+            <br>
+        </div>
+        </div>
+        <div  class="panel-footer">
+            <input type="submit" value="Сохранить" class="btn btn-primary btn-block btn-lg" />
+            <br>
+            @Html.ActionLink("Отменить изменения и вернуться на главную", "Index", null, new { @class = "btn btn-warning btn-block btn-lg" })
+        </div>
+        }
+    </div>

@@ -1,0 +1,47 @@
+﻿@using Kursach3.WebUI.Models
+@using Kursach3Domain.Entities
+
+@model AnswersLineIndexViewModel
+
+@{
+    ViewBag.Title = "Админ панель: вопросы";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    int Delete = 1;
+    int Id = Model.QuestionID;
+}
+    <h3>
+        Список ответов  @Html.ActionLink("Главная", "Index", "Default", null, new { @class = "btn btn-default btn-lg" })
+        @if (Model.QuestionID != 0)
+        {@Html.ActionLink("Добавить линию", "CreateAnswerLine", new { Model.QuestionID }, new { @class = "btn btn-default btn-lg" })}
+        @Html.ActionLink("Все линии", "AnswerLineIndex", null, new { @class = "btn btn-default btn-lg" })
+        @Html.ActionLink("Назад", "QuestionIndex", new { Id }, new { @class = "btn btn-warning btn-lg" })
+    </h3>
+<div class="panel-body">
+    <table class="table table-striped table-condensed table-bordered">
+        <tr>
+            <th class="text-right">ID</th>
+            <th>Тег линии</th>
+            <th class="text-right">Количество правильных ответов</th>
+            <th class="text-right">Количество баллов</th>
+            <th class="text-right">Идентификатор вопроса</th>
+            <th class="text-center">Действия</th>
+        </tr>
+        @foreach (var item in Model.Lines)
+        {
+    <tr>
+        <td class="text-right">@item.Id</td>
+        <td>
+            @item.LineString
+        </td>
+        <td class="text-right">@item.NumOfCorrectAnswers.ToString("#")</td>
+        <td class="text-right">@item.LineScore.ToString("#")</td>
+        <td class="text-right">@item.QuestionID.ToString("Тест №#")</td>
+        <td class="text-center" style="width:150px">
+            @Html.ActionLink("Изменить", "EditAnswerLine", new { item.Id }, new { @class = "btn btn-block btn-default btn-lg" })
+            @Html.ActionLink("Ответы","AnswerIndex", new { Id = 0 , LineID = item.Id } ,new { @class = "btn btn-block btn-default btn-lg" })
+            @Html.ActionLink("Удалить", "EditAnswerLine", new { item.Id, Delete }, new { @class = "btn btn-block btn-danger btn-lg" })
+        </td>
+    </tr>
+        }
+    </table>
+</div>

@@ -1,0 +1,46 @@
+﻿@model Kursach3Domain.Entities.Chapter
+@{
+    ViewBag.Title = "Админ панель: редактирование теста";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="panel">
+    <div class="panel-heading">
+        <h3>Редактирование абзаца</h3>
+    </div>
+
+    @using (Html.BeginForm("EditChapter", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div class="panel-body">
+            @Html.HiddenFor(m => m.Id)
+            @Html.HiddenFor(m => m.ImgId)
+            @Html.HiddenFor(m => m.LessionId)
+            @Html.HiddenFor(m => m.PdfId)
+            @Html.HiddenFor(m=>m.VideoId)
+            @foreach (var property in ViewData.ModelMetadata.Properties)
+            {
+                switch (property.PropertyName)
+                {
+
+                    case "Id":
+                    case "ImgId":
+                    case "LessionId":
+                    case "VideoId":
+                    case "PdfId":
+                        // Ничего не делать
+                        break;
+                    default:
+                        <div class="form-group">
+                            <label>@(property.DisplayName ?? property.PropertyName)</label>
+                            @Html.TextArea(property.PropertyName, null,new { @class = "form-control", rows = 5 })
+                            @Html.ValidationMessage(property.PropertyName)
+                        </div>
+                        break;
+                }
+            }
+        </div>
+        <div class="panel-footer">
+            <input type="submit" value="Сохранить" class="btn btn-primary btn-lg" />
+            @Html.ActionLink("Отменить изменения и вернуться к списку", "Index", null, new { @class = "btn btn-warning btn-lg" })
+        </div>
+    }
+</div>

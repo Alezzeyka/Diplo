@@ -2,17 +2,81 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
+    int k = 0;
+    int z = 0;
 }
+<h1>Особистий кабінет</h1>
 <div class="jumbotron col-xs-12">
-
-<h2>Личный кабинет</h2>
-<div>@Model.Name</div>
-<div>@Model.Email</div>
-<div>@Model.Role</div>
-@Html.ActionLink("Изменить данные", "Edit", "Account", new { @class = "btn btn-default btn-lg" })
-@Html.ActionLink("Выйти", "Logout", "Account", new { @class = "btn btn-default btn-lg" })
-@Html.ActionLink("Удалить аккаунт", "Delete", "Account", new { @class = "btn btn-danger btn-lg" })
+    <div>@Model.Name</div>
+    <div>@Model.Email</div>
+    <div>Пошта підверджена:
+    @if(Model.EmailConfirmed==true)
+    {
+        <span>Так</span>
+    }
+    else 
+    {
+        <span>Ні</span>
+    }
+    </div> 
+    @Html.ActionLink("Змінити дані", "Edit", "Account", new { @class = "btn btn-default btn-lg" })
+    @Html.ActionLink("Вийти", "Logout", "Account", new { @class = "btn btn-default btn-lg" })
+    @Html.ActionLink("Видалити акаунт", "Delete", "Account", new { @class = "btn btn-danger btn-lg pull-right" })
 </div>
+<h2>Ваша статистика (Останні 10 тестів)</h2>
+<div class="jumbotron">
+    <table class="table">
+        <tr>
+            <th class="text-center">Статистика тестів</th>
+            <th class="text-center">Статистика ЗНО тестів</th>
+        </tr>
+        <tr>
+            <td>
+                <table class="table table-striped table-condensed table-bordered">
+                <tr>
+                <th>Тема</th>
+                <th>Оцінка</th>
+                <th class="text-right">Дата</th>
+                </tr>
+                @foreach(var a in Model.Stats.OrderByDescending(x=>x.Date))
+                {
+                    if ((a.ZNO == false)&&(k<10))
+                    {
+                <tr>
+                    <td>@a.TestTheme</td>
+                    <td>@a.score | @a.maxScore</td>
+                    <td class="text-right">@a.Date.ToShortDateString()</td>
+                </tr>
+                        k++;
+                    }
+                }
+                </table>
+            </td>
+            <td>
+                <table class="table table-striped table-condensed table-bordered">
+                    <tr>
+                        <th>Тема</th>
+                        <th>Оцінка</th>
+                        <th class="text-right">Дата</th>
+                    </tr>
+                    @foreach (var a in Model.Stats.OrderByDescending(x=>x.Date))
+                    {
+                        if ((a.ZNO == true)&&(z<10))
+                        {
+                            <tr>
+                                <td>@a.TestTheme</td>
+                                <td>@a.score | @a.maxScore</td>
+                                <td class="text-right">@a.Date.ToShortDateString()</td>
+                            </tr>
+                            z++;
+                        }
+                    }
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+
 
 
 

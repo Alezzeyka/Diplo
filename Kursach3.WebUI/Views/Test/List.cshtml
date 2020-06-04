@@ -4,6 +4,7 @@
 @model TestListViewModel
 @{
 ViewBag.Title = "Тесты";
+Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
     
@@ -13,10 +14,13 @@ ViewBag.Title = "Тесты";
         {
             Test = p
         };
-        if ((p.ImgId!=0)&&(p.NumOfQ>=1))
+        if (p.NumOfQ>=1)
         {
-            var Picture = Model.pictures.FirstOrDefault(x => x.Id == p.ImgId);
-            testSummary.Picture = Picture;
+            if (p.ImgId != 0)
+            {
+                var Picture = Model.pictures.FirstOrDefault(x => x.Id == p.ImgId);
+                testSummary.Picture = Picture;
+            }
             @Html.Partial("TestSummary", testSummary)
         }
     }

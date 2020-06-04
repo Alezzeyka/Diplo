@@ -25,7 +25,6 @@ namespace Kursach3Domain.Concrete
                 Lessions dbEntry = context.Lessions.Find(lessions.Id);
                 if (dbEntry != null)
                 {
-                    dbEntry.Text = lessions.Text;
                     dbEntry.Theme=lessions.Theme;
                     dbEntry.Course = lessions.Course;
                     dbEntry.ImgId = lessions.ImgId;

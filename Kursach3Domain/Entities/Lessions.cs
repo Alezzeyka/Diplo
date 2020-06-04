@@ -16,10 +16,6 @@ namespace Kursach3Domain.Entities
         [Display(Name = "Тема")]
         [Required(ErrorMessage = "Пожалуйста, введите тему лекции")]
         public string Theme { get; set; }
-        [DataType(DataType.MultilineText)]
-        [Display(Name = "Текст лекции")]
-        [Required(ErrorMessage = "Пожалуйста, введите текст вашего урока")]
-        public string Text { get; set; }
         [Display(Name = "Класс")]
         [Required]
         [Range(1, 11, ErrorMessage = "Пожалуйста, введите подходящее значение для класса (1-11)")]

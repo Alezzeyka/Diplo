@@ -30,7 +30,7 @@ namespace Kursach3Domain.Concrete
             }
             context.SaveChanges();
         }
-        public UserStats DeleteStats(int StatId)
+        public UserStats DeleteStat(int StatId)
         {
             UserStats dbEntry = context.Stats.Find(StatId);
             if (dbEntry != null)

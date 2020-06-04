@@ -1,0 +1,33 @@
+﻿@using Kursach3.WebUI.Models
+@using Kursach3.WebUI.HtmlHelpers
+@using Kursach3Domain.Entities
+@model Kursach3.WebUI.Models.LessionViewModel
+@{
+    ViewBag.Title = "Lession";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+@Html.ActionLink("Повернутися до списку", "LessionsList", "Test", null,
+new { @class = "btn btn-default btn-block btn-lg" })
+<h2>@Model.Lession.Theme</h2>
+@foreach (var a in Model.Chapters)
+{
+    ChapterSummaryViewModel model = new ChapterSummaryViewModel
+    {
+        Chapter = a,
+    };
+    if(a.ImgId!=0)
+    {
+        model.Picture = Model.Pictures.First(x => x.Id == a.ImgId);
+    }
+    if(a.PdfId!=0)
+    {
+        model.PDF = Model.Files.First(x=>x.Id==a.PdfId);
+    }
+    if (a.VideoId != 0)
+    {
+        model.Video = Model.Files.First(x => x.Id == a.VideoId);
+    }
+
+    @Html.Partial( "ChapterSummary" , model)
+}
+

@@ -38,7 +38,11 @@ namespace Kursach3.WebUI.Infrastructure
             kernel.Bind<IAnswersRepository>().To<EFAnswerRepository>();
             kernel.Bind<IPicturesRepository>().To<EFPicturesRepository>();
             kernel.Bind<ILessionssRepository>().To<EFLessionsRepository>();
+            kernel.Bind<IStatsRepository>().To<EFStatsRepository>();
+            kernel.Bind<IMultiChoiceRepository>().To<EFMultiChoiceRepository>();
             kernel.Bind<IAuthProvider>().To<FormAuthProvider>();
+            kernel.Bind<IFileRepository>().To<EFFileRepository>();
+            kernel.Bind<IChapterRepository>().To<EFChapterRepository>();
         }
     }
 }

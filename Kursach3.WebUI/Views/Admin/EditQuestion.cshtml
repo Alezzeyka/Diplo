@@ -1,6 +1,6 @@
 ﻿@model Kursach3Domain.Entities.Question
 @{
-    ViewBag.Title = "Админ панель: редактирование теста";
+    ViewBag.Title = "Админ панель: редактирование вопроса";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
     <div class="panel">
@@ -12,29 +12,41 @@
         {
             @Html.ValidationSummary();
     <div class="panel-body">
-        @Html.Hidden("Id", Model.Id)
-        @Html.Hidden("TestID", Model.TestID)
+        @Html.HiddenFor(m => m.Id)
+        @Html.HiddenFor(m => m.NumOfCorrectAnswers)
+        @Html.HiddenFor(m => m.Score)
+        @Html.HiddenFor(m => m.TestID)
+        @Html.HiddenFor(m=>m.ImgId)
         @foreach (var property in ViewData.ModelMetadata.Properties)
         {
-            
-                switch (property.PropertyName)
-                {
-                    case "Id":
-                    case "ImgId":
-                    case "TestID":
-                    case "NumOfCorrectAnswers":
-                        // Ничего не делать
-                        break;
-                    default:
-                        <div class="form-group">
-                            <label>@(property.DisplayName ?? property.PropertyName)</label>
-                            @Html.TextBox(property.PropertyName, null, new { @class = "form-control" })
-                            @Html.ValidationMessage(property.PropertyName)
-                        </div>
+
+            switch (property.PropertyName)
+            {
+                case "Id":
+                case "ImgId":
+                case "TestID":
+                case "NumOfCorrectAnswers":
+                case "Score":
+                    // Ничего не делать
                     break;
-                }
+                default:
+                    <div class="form-group">
+                        <label>@(property.DisplayName ?? property.PropertyName)</label>
+                        @if (property.PropertyName == "MultiChoice")
+                        {
+                            @Html.CheckBoxFor(m => m.MultiChoice, new { @class = "checkbox" })
+                        }
+                        else
+                        {
+                            @Html.TextArea(property.PropertyName, null,
+                            new { @class = "form-control" });
+                        }
+                        @Html.ValidationMessage(property.PropertyName)
+                    </div>
+                    break;
             }
-        </div>
+        }
+    </div>
             <div class="panel-footer">
                 <input type="submit" value="Сохранить" class="btn btn-primary btn-lg" />
                 @Html.ActionLink("Отменить изменения и вернуться к списку", "QuestionIndex", Model.TestID, new { @class = "btn btn-warning btn-lg" })

@@ -20,5 +20,8 @@ namespace Kursach3Domain.Concrete
         public DbSet<Picture> Pictures { get; set; }
         public DbSet<UserStats> Stats { get; set; }
         public DbSet<Lessions> Lessions { get; set; }
+        public DbSet<MultiChoice> Lines { get; set; }
+        public DbSet<Files> Files { get; set; }
+        public DbSet<Chapter> Chapters { get; set; }
     }
 }

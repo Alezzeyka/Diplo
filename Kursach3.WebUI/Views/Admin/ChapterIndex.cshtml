@@ -1,0 +1,38 @@
+﻿@model Kursach3.WebUI.Models.ChapterIndexViewModel
+
+@{
+    ViewBag.Title = "Админ панель: тесты";
+
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    int Delete = 1;
+}
+    <h3>
+        Список абзацев @Html.ActionLink("Главная", "Index", "Default", null, new { @class = "btn btn-default btn-lg" })
+        @Html.ActionLink("Добавить абзац", "CreateChapter", new { Model.LessionId }, new { @class = "btn btn-default btn-lg" })
+        @Html.ActionLink("Список всех абзацев", "ChapterIndex", null, new { @class = "btn btn-default btn-lg" })
+        @Html.ActionLink("Назад", "LessIndex", null, new { @class = "btn btn-warning btn-lg" })
+    </h3>
+<div class="panel-body">
+    <table class="table table-striped table-condensed table-bordered">
+        <tr>
+            <th class="text-right">ID</th>
+            <th>Текст</th>
+            <th class="text-center">Действия</th>
+        </tr>
+        @foreach (var item in Model.Chapters)
+        {
+            int x = item.Id;
+            <tr>
+                <td class="text-right">@item.Id</td>
+                <td> @item.Text</td>
+                <td class="text-center" style="width:150px">
+                    @Html.ActionLink("Изменить", "EditChapter", new { item.Id }, new { @class = "btn btn-block btn-default btn-lg" })
+                    @Html.ActionLink("Добавить картинку", "SetChapterPicIndex", new { item.Id }, new { @class = "btn btn-block btn-default btn-lg" })
+                    @Html.ActionLink("Добавить видео", "SetVideoIndex", new { item.Id }, new { @class = "btn btn-block btn-default btn-lg" })
+                    @Html.ActionLink("Добавить PDF", "SetPDFIndex", new { item.Id }, new { @class = "btn btn-block btn-default btn-lg" })
+                    @Html.ActionLink("Удалить", "EditChapter", new { item.Id, Delete }, new { @class = "btn btn-block btn-danger btn-lg" })
+                </td>
+            </tr>
+        }
+    </table>
+</div>

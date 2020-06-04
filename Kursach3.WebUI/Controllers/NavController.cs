@@ -10,21 +10,23 @@ using Kursach3.WebUI.Models;
 using System.Data.Entity;
 namespace Kursach3.WebUI.Controllers
 {
-    [Authorize(Roles = "Пользователь")]
+    [Authorize(Roles = "Користувач")]
     public class NavController : Controller
     {
        
         private ITestRepository repository;
-        public NavController(ITestRepository repo)
+        private ILessionssRepository LessionssRepository;
+        public NavController(ITestRepository repo, ILessionssRepository lessionss)
         {
             repository = repo;
+            LessionssRepository = lessionss;
         }
         public PartialViewResult Menu(string category = null)
         {
             ViewBag.SelectedCategory = category;
             IEnumerable<TestPreview> tests = repository.Tests.Where(x => x.ZNO == false);
             IEnumerable<string> categories = tests
-                .Where(x => x.ImgId != 0 && x.NumOfQ>=1)
+                .Where(x => x.NumOfQ>=1)
                 .OrderBy(x => x.Course)
                 .Select(test => test.Course.ToString())
                 .Distinct();
@@ -35,11 +37,21 @@ namespace Kursach3.WebUI.Controllers
             ViewBag.SelectedCategory = category;
             IEnumerable<TestPreview> tests = repository.Tests.Where(x => x.ZNO == true);
             IEnumerable<string> categories = tests
-                .Where(x => x.ImgId != 0 && x.NumOfQ >= 1)
+                .Where(x => x.NumOfQ >= 1)
                 .OrderBy(x => x.Course)
                 .Select(test => test.Course.ToString())
                 .Distinct();
             return PartialView("ZNOFlexMenu", categories);
+        }
+        public PartialViewResult LessionMenu(string category = null)
+        {
+            ViewBag.SelectedCategory = category;
+            IEnumerable<Lessions> lessions = LessionssRepository.Lessions;
+            IEnumerable<string> categories = lessions
+                .OrderBy(x => x.Course)
+                .Select(test => test.Course.ToString())
+                .Distinct();
+            return PartialView("LessionMenu", categories);
         }
     }
 }

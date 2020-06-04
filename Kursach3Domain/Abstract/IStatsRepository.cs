@@ -11,6 +11,6 @@ namespace Kursach3Domain.Abstract
     {
         IEnumerable<UserStats> Stats { get; }
         void SaveStat(UserStats stats);
-        UserStats DeleteStats(int ID);
+        UserStats DeleteStat(int ID);
     }
 }

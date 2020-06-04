@@ -1,0 +1,36 @@
+﻿@model Kursach3.WebUI.Models.LessionSummaryViewModel
+
+    @if (Model.Lession.ImgId != 0)
+    {
+        <div class="well well-sm">
+            <table class="table">
+                <tr>
+                    <td style="width:150px">
+                        @Html.Raw("<img style='width:150px; height:250px;'vspace='5' hspace='5' src=\"data:image/jpeg;base64," + Convert.ToBase64String(Model.Picture.Image) + "\"/>")
+                    </td>
+                    <td class="text-left">
+                        <h3>
+                            <span><strong>@Model.Lession.Theme</strong></span>
+                        </h3>
+                    </td>
+                </tr>
+            </table>
+            <p class="lead text-left">
+                Історія України @Model.Lession.Course.ToString("# класс")
+            </p>
+            @using (Html.BeginForm("Lession", "Test"))
+            {
+                @Html.Hidden("ID", Model.Lession.Id)
+                <input class="btn btn-block btn-default btn-lg" type="submit" value="Пройти" />
+            }
+        </div>
+    }
+    else
+    {
+        using (Html.BeginForm("Lession", "Test"))
+        {
+            @Html.Hidden("ID", Model.Lession.Id)
+            <input class="btn btn-block btn-default btn-lg" type="submit" value="Історія України @Model.Lession.Theme @Model.Lession.Course.ToString("# клас")" />
+        }
+    }
+

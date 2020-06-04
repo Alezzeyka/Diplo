@@ -29,6 +29,8 @@ namespace Kursach3Domain.Concrete
                     dbEntry.TestID = quest.TestID;
                     dbEntry.NumOfCorrectAnswers = quest.NumOfCorrectAnswers;
                     dbEntry.ImgId = quest.ImgId;
+                    dbEntry.MultiChoice = quest.MultiChoice;
+                    dbEntry.Score = quest.Score;
                 }
             }
             context.SaveChanges();
@@ -45,11 +47,24 @@ namespace Kursach3Domain.Concrete
         }
         public void DeleteQuests(IEnumerable<Question> questions)
         {
-            
                 context.Question.RemoveRange(questions);
                 context.SaveChanges();
-
-            return;
+        }
+        public void SaveQuestions(IEnumerable<Question> questions)
+        {
+            foreach (var a in questions)
+            {
+                Question dbEntry = context.Question.Find(a.Id);
+                {
+                    dbEntry.QuestionForm = a.QuestionForm;
+                    dbEntry.TestID = a.TestID;
+                    dbEntry.NumOfCorrectAnswers = a.NumOfCorrectAnswers;
+                    dbEntry.ImgId = a.ImgId;
+                    dbEntry.MultiChoice = a.MultiChoice;
+                    dbEntry.Score = a.Score;
+                }
+            }
+            context.SaveChanges();
         }
     }
 }

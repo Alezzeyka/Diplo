@@ -12,5 +12,6 @@ namespace Kursach3.WebUI.Models
         public int QuestionId { get; set; }
         public int TestId { get; set; }
         public int Score { get; set; }
+        public bool Line { get; set; }
     }
 }

@@ -11,5 +11,7 @@ namespace Kursach3.WebUI.Models
         public TestPreview Tests { get; set; }
         public IEnumerable<Answers> Answers { get; set; }
         public IEnumerable<Question> Questions { get; set; }
+        public IEnumerable<MultiChoice> Lines { get; set; }
+        public IEnumerable<Answers> LineAnswers { get; set; }
     }
 }

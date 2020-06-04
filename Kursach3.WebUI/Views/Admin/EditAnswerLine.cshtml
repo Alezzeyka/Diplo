@@ -1,0 +1,53 @@
+﻿
+@{
+    ViewBag.Title = "EditAnswerLine";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@using Kursach3Domain.Abstract
+@using Kursach3Domain.Concrete
+@using Kursach3Domain.Entities
+
+@model Kursach3Domain.Entities.MultiChoice
+<div class="panel">
+    <div class="panel-heading">
+        <h3>Редактирование линии ответов</h3>
+    </div>
+
+    @using (Html.BeginForm("EditAnswerLine", "Admin", FormMethod.Post))
+    {
+        @Html.ValidationSummary();
+<div class="panel-body btn-group-toggle">
+    @Html.Hidden("Id", Model.Id)
+    @Html.Hidden("QuestionID", Model.QuestionID)
+    @Html.Hidden("LineScore", Model.LineScore)
+    @Html.Hidden("NumOfCorrectAnswers", Model.NumOfCorrectAnswers)
+    @foreach (var property in ViewData.ModelMetadata.Properties)
+    {
+        switch (property.PropertyName)
+        {
+            case "Id":
+            case "QuestionID":
+            case "LineScore":
+            case "NumOfCorrectAnswers":
+                // Ничего не делать
+                break;
+            default:
+                <div class="form-group">
+                    <label>@(property.DisplayName ?? property.PropertyName)</label>
+                    @Html.TextBoxFor(m => m.LineString, new { @class = "form-control" })
+                </div>
+                break;
+        }
+    }
+</div>
+        <div class="panel-footer">
+            <input type="submit" value="Сохранить" class="btn btn-primary btn-lg" />
+            @Html.ActionLink("Отменить изменения и вернуться к списку", "Index", null, new { @class = "btn btn-warning btn-lg" })
+        </div>
+    }
+</div>
+
+
+
+

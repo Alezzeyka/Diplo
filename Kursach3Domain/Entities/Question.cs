@@ -22,5 +22,8 @@ namespace Kursach3Domain.Entities
         public int ImgId { get; set; }
         [HiddenInput(DisplayValue = false)]
         public int NumOfCorrectAnswers { get; set; }
+        [Display(Name = "Вопрос на сопоставление?")]
+        public bool MultiChoice { get; set; }
+        public int Score { get; set; }
     }
 }

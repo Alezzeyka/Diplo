@@ -6,116 +6,347 @@
     @model TestResultViewModel
     Layout = "~/Views/Shared/_TestingLayout.cshtml";
     int i = 1;
+    List<Answers> LineAnswers = new List<Answers>();
 }
-@Html.Hidden("Id", Model.Test.Id)
-<h1>Результаты</h1>
-<h2>Ваш результат состовляет @Model.score из @Model.Test.MaxScore</h2>
-<h1>Вопросы</h1>
-<ul class="nav nav-tabs">
-    @foreach (var p in Model.Questions)
-    {
-        string s = "#nav-quest" + p.Id.ToString();
-        if (i == 1)
+    @Html.Hidden("Id", Model.Test.Id)
+    <h1>Результати</h1>
+    <p>Ви набрали @Model.score балів з @Model.Test.MaxScore</p>
+    <h2>Нижче ві можете ознайомитися з вашими результатами</h2>
+    <ul class="nav nav-tabs">
+        @foreach (var p in Model.Questions)
         {
-            <li class="nav-item">
-                <a class="navbar-link active" data-toggle="tab" href=@s>@i</a>
-            </li>
-
-        }
-        else
-        {
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href=@s>@i</a>
-            </li>
-
-        }
-        i = i + 1;
-    }
-</ul>
-    @{ i = 1; }
-<div class="tab-content">
-    @foreach (var p in Model.ResultStrings)
-     {        
-        string s = "nav-quest" + p.QuestionId.ToString();
-        Question question = Model.Questions.First(x => x.Id == p.QuestionId);
-        if (p.IsCorrect == true)
-        {
-         <div class="tab-pane fade" id=@s>
-             <div class="jumbotron alert-success">
-                 <p class="lead"><strong>@question.QuestionForm</strong></p>
-                 @if (question.ImgId != 0)
-                 {
-                     Picture picture = Model.Pictures.First(x => x.Id == question.ImgId);
-                     <div class="img-thumbnail">@Html.Raw("<img style='width:150px; height:250px;'vspace='5' hspace='5' src=\"data:image/jpeg;base64," + Convert.ToBase64String(picture.Image) + "\"/>")</div>
-                 }
-                 @foreach (var a in Model.Answers.Where(x => x.QuestionID == question.Id))
-                 {
-                     string name = "answer" + i;
-                     if (a.Id == p.AnswerId)
-                     {
-             <div class="alert-success">
-                 <input name="@name" type="radio" checked disabled>
-                 <span class="text-success">@a.AnswerForm</span> <br />
-             </div>
-                     }
-                     else
-                     {
-                         <input name="@name" type="radio" disabled>
-                         <span>@a.AnswerForm</span> <br />
-                     }
-                 }
-             </div>
-         </div>
-         }
-         else
-         {
-        <div class="tab-pane fade" id=@s>
-        <div class="jumbotron alert-danger">
-        <p class="lead"><strong>@question.QuestionForm</strong></p>
-        @if (question.ImgId != 0)
-        {
-        Picture picture = Model.Pictures.First(x => x.Id == question.ImgId);
-        <div class="img-thumbnail">@Html.Raw("<img style='width:150px; height:250px;'vspace='5' hspace='5' src=\"data:image/jpeg;base64," + Convert.ToBase64String(picture.Image) + "\"/>")</div>
-        }
-        @foreach (var a in Model.Answers.Where(x => x.QuestionID == question.Id))
-        {
-            string name = "answer" + i;
-            if (a.Id == p.AnswerId)
+            string s = "#nav-quest" + p.Id.ToString();
+            if (i == 1)
             {
-                <div class="alert-danger">
-                <input name="@name" type="radio" checked disabled>
-                <span class="text-danger">@a.AnswerForm</span> <br />
-                </div>
+                <li class="nav-item">
+                    <a class="navbar-link active" data-toggle="tab" href=@s>@i</a>
+                </li>
+
             }
             else
             {
-                if (a.IsCorrect == true)
-                {
-                    <div class="alert-success">
-                    <input name="@name" type="radio" disabled>
-                    <span class="text-success">@a.AnswerForm</span> <br />
-                    </div>
-                }
-                else
-                {
-                    <input name="@name" type="radio" disabled>
-                    <span>@a.AnswerForm</span> <br />
-                }
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href=@s>@i</a>
+                </li>
+
             }
-         }
-        </div>
-        </div>
-           }
-        i = i + 1;
-     }
-</div>
-<div class="panel panel-footer text-center" style="margin-bottom:10%;">
-    <div>
-        @using (Html.BeginForm("Testing", "Testing"))
-        {
-            @Html.Hidden("TestID", Model.Test.Id)
-            <input class="btn btn-block btn-success btn-lg" type="submit" value="Пройти еще раз" />
+            i = i + 1;
         }
-        @Html.ActionLink("Главная", "List", "Test", null, new { @class = "btn btn-block btn-default btn-lg" })
+    </ul>
+    @{i = 1; }
+    <div class="tab-content">
+        @foreach (var p in Model.Questions)
+        {
+            int k = 1;
+            string s = "nav-quest" + p.Id.ToString();
+            <div class="tab-pane fade active" id=@s>
+                <div class="jumbotron">
+                    <p class="lead"><strong>@p.QuestionForm</strong></p>
+                    @if (p.ImgId != 0)
+                    {
+                        Picture picture = Model.pictures.First(x => x.Id == p.ImgId);
+                        <div class="img-thumbnail">@Html.Raw("<img style='width:150px; height:250px;'vspace='5' hspace='5' src=\"data:image/jpeg;base64," + Convert.ToBase64String(picture.Image) + "\"/>")</div>
+                    }
+                    <p class="lead"><strong>Відповіді</strong></p>
+                    <table>
+                        @if (p.MultiChoice == false)
+                        {
+                            foreach (var a in Model.Answers.Where(x => x.QuestionID == p.Id && x.LineAnswer == false))
+                            {
+                        <tr>
+                            @switch (k)
+                            {
+                                case 1:
+                                    <td>А: </td>
+                                    break;
+                                case 2:
+                                    <td>Б: </td>
+                                    break;
+                                case 3:
+                                    <td>В: </td>
+                                    break;
+                                case 4:
+                                    <td>Г: </td>
+                                    break;
+                                case 5:
+                                    <td>Д: </td>
+                                    break;
+                                default:
+
+                                    break;
+                            }
+                            <td>@a.AnswerForm</td>
+                        </tr>
+                                k += 1;
+                            }
+
+                        }
+                        else
+                        {
+                            MultiChoice myline = Model.lines.First(x => x.QuestionID == p.Id);
+                            foreach (var a in Model.LineAnswers.Where(x => x.QuestionID == myline.Id && x.LineAnswer == true))
+                            {
+                    <tr>
+                        @switch (k)
+                        {
+                            case 1:
+                                <td>А: </td>
+                                break;
+                            case 2:
+                                <td>Б: </td>
+                                break;
+                            case 3:
+                                <td>В: </td>
+                                break;
+                            case 4:
+                                <td>Г: </td>
+                                break;
+                            case 5:
+                                <td>Д: </td>
+                                break;
+                            default:
+
+                                break;
+                        }
+                        <td>@a.AnswerForm</td>
+                    </tr>
+                                k += 1;
+                                LineAnswers.Add(a);
+                            }
+                        }
+                    </table>
+                    <table>
+                        @if (p.MultiChoice == false)
+                        {
+                            k = 1;
+                            <tr>
+                                <td>
+                                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                        @foreach (var a in Model.Answers.Where(x => x.QuestionID == p.Id && x.LineAnswer == false))
+                                        {
+                                            switch (k)
+                                            {
+                                                case 1:
+                                                    <label class="btn btn-secondary btn-lg" style="width:50px;height:50px" disabled>А</label>
+                                                    break;
+                                                case 2:
+                                                    <label class="btn btn-secondary btn-lg" style="width:50px;height:50px" disabled>Б</label>
+                                                    break;
+                                                case 3:
+                                                    <label class="btn btn-secondary btn-lg" style="width:50px;height:50px" disabled>В</label>
+                                                    break;
+                                                case 4:
+                                                    <label class="btn btn-secondary btn-lg" style="width:50px;height:50px" disabled>Г</label>
+                                                    break;
+                                                case 5:
+                                                    <label class="btn btn-secondary btn-lg" style="width:50px;height:50px" disabled>Д</label>
+                                                    break;
+                                                default:
+
+                                                    break;
+                                            }
+                                            k++;
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                        @foreach (var a in Model.Answers.Where(x => x.QuestionID == p.Id && x.LineAnswer == false))
+                                        {
+                                            bool tf = true;
+                                            string name = "answer" + i;
+                                            string value = a.Id + ":" + a.QuestionID + ":" + p.TestID+ ":Value" + a.AnswerForm+ ":Score" + a.AnswerScore+ ":IsCorrect" + a.IsCorrect+ ":IsLine" + a.LineAnswer;
+                                            foreach (var c in Model.ResultStrings)
+                                            {
+
+                                                if (c.AnswerId == a.Id)
+                                                {
+                                                    tf = false;
+                                                    if (a.IsCorrect == true)
+                                                    {
+                                                        <label class="btn btn-success btn-outline-success btn-lg" style="width:50px;height:50px"><input name="@name" type="radio" class="option-input radio" value="@value" autocomplete="off" required disabled /></label>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="btn btn-danger btn-outline-success btn-lg" style="width:50px;height:50px"><input name="@name" type="radio" class="option-input radio" value="@value" autocomplete="off" required disabled /></label>
+                                                    }
+                                                }
+                                            }
+                                            if (tf == true)
+                                            {
+                                                if (a.IsCorrect == true)
+                                                {
+                                                    <label class="btn btn-success btn-outline-success btn-lg" style="width:50px;height:50px"><input name="@name" type="radio" class="option-input radio" value="@value" autocomplete="off" required disabled /></label>
+                                                }
+                                                else
+                                                {
+                                                    <label class="btn btn-default btn-outline-success btn-lg" style="width:50px;height:50px"><input name="@name" type="radio" class="option-input radio" value="@value" autocomplete="off" required disabled /></label>
+                                                }
+                                            }
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            k = 1;
+                            MultiChoice myline = Model.lines.First(x => x.QuestionID == p.Id);
+                            <tr>
+                                <td>
+                                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                        <label class="btn btn-secondary btn-lg" style="width:50px;height:50px" disabled></label>
+                                        @foreach (var a in Model.LineAnswers.Where(x => x.QuestionID == myline.Id && x.LineAnswer == true))
+                                        {
+                                            switch (k)
+                                            {
+                                                case 1:
+                                                    <label class="btn btn-secondary btn-lg" style="width:50px;height:50px" disabled>А</label>
+                                                    break;
+                                                case 2:
+                                                    <label class="btn btn-secondary btn-lg" style="width:50px;height:50px" disabled>Б</label>
+                                                    break;
+                                                case 3:
+                                                    <label class="btn btn-secondary btn-lg" style="width:50px;height:50px" disabled>В</label>
+                                                    break;
+                                                case 4:
+                                                    <label class="btn btn-secondary btn-lg" style="width:50px;height:50px" disabled>Г</label>
+                                                    break;
+                                                case 5:
+                                                    <label class="btn btn-secondary btn-lg" style="width:50px;height:50px" disabled>Д</label>
+                                                    break;
+                                                default:
+
+                                                    break;
+                                            }
+                                            k++;
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                            k = 1;
+                            foreach (var b in Model.lines.Where(x => x.QuestionID == p.Id))
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                            @switch (k)
+                                            {
+                                                case 1:
+                                                    <label class="btn btn-secondary btn-lg" style="width:50px;height:50px" disabled>@k</label>
+                                                    break;
+                                                case 2:
+                                                    <label class="btn btn-secondary btn-lg" style="width:50px;height:50px" disabled>@k</label>
+                                                    break;
+                                                case 3:
+                                                    <label class="btn btn-secondary btn-lg" style="width:50px;height:50px" disabled>@k</label>
+                                                    break;
+                                                case 4:
+                                                    <label class="btn btn-secondary btn-lg" style="width:50px;height:50px" disabled>@k</label>
+                                                    break;
+                                                case 5:
+                                                    <label class="btn btn-secondary btn-lg" style="width:50px;height:50px" disabled>@k</label>
+                                                    break;
+                                                default:
+                                                    break;
+                                            }
+                                            @if (k == 1)
+                                            {
+                                                foreach (var a in LineAnswers)
+                                                {
+                                                    bool tf = true;
+                                                    string name = b.LineString;
+                                                    string value = a.Id + ":" + a.QuestionID + ":" + p.TestID;
+                                                    foreach (var c in Model.ResultStrings)
+                                                    {
+
+                                                        if (c.AnswerId == a.Id)
+                                                        {
+                                                            tf = false;
+                                                            if (a.IsCorrect == true)
+                                                            {
+                                                                <label class="btn btn-success btn-outline-success btn-lg" style="width:50px;height:50px"><input name="@name" type="radio" class="option-input radio" value="@value" autocomplete="off" required disabled /></label>
+                                                            }
+                                                            else
+                                                            {
+                                                                <label class="btn btn-danger btn-outline-success btn-lg" style="width:50px;height:50px"><input name="@name" type="radio" class="option-input radio" value="@value" autocomplete="off" required disabled /></label>
+                                                            }
+                                                        }
+                                                    }
+                                                    if (tf == true)
+                                                    {
+                                                        if (a.IsCorrect == true)
+                                                        {
+                                                            <label class="btn btn-success btn-outline-success btn-lg" style="width:50px;height:50px"><input name="@name" type="radio" class="option-input radio" value="@value" autocomplete="off" required disabled /></label>
+                                                        }
+                                                        else
+                                                        {
+                                                            <label class="btn btn-default btn-outline-success btn-lg" style="width:50px;height:50px"><input name="@name" type="radio" class="option-input radio" value="@value" autocomplete="off" required disabled /></label>
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                foreach (var a in LineAnswers)
+                                                {
+                                                    foreach (var c in Model.LineAnswers.Where(x => x.QuestionID == b.Id && x.LineAnswer == true && x.AnswerForm == a.AnswerForm))
+                                                    {
+                                                        bool tf = true;
+                                                        string name = b.LineString;
+                                                        string value = c.Id + ":" + c.QuestionID + ":" + p.TestID;
+                                                        foreach (var d in Model.ResultStrings)
+                                                        {
+
+                                                            if (d.AnswerId == c.Id)
+                                                            {
+                                                                tf = false;
+                                                                if (c.IsCorrect == true)
+                                                                {
+                                                                    <label class="btn btn-success btn-outline-success btn-lg" style="width:50px;height:50px"><input name="@name" type="radio" class="option-input radio" value="@value" autocomplete="off" required disabled /></label>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <label class="btn btn-danger btn-outline-success btn-lg" style="width:50px;height:50px"><input name="@name" type="radio" class="option-input radio" value="@value" autocomplete="off" required disabled /></label>
+                                                                }
+                                                            }
+                                                        }
+                                                        if (tf == true)
+                                                        {
+                                                            if (c.IsCorrect == true)
+                                                            {
+                                                                <label class="btn btn-success btn-outline-success btn-lg" style="width:50px;height:50px"><input name="@name" type="radio" class="option-input radio" value="@value" autocomplete="off" required disabled /></label>
+                                                            }
+                                                            else
+                                                            {
+                                                                <label class="btn btn-default btn-outline-success btn-lg" style="width:50px;height:50px"><input name="@name" type="radio" class="option-input radio" value="@value" autocomplete="off" required disabled /></label>
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        </div>
+                                    </td>
+                                </tr>
+                                k++;
+                            }
+                        }
+                    </table>
+                </div>
+            </div>
+            i = i + 1;
+        }
     </div>
-</div>
+    <div class="panel panel-footer text-center" style="margin-bottom:10%;">
+        <div>
+            @using (Html.BeginForm("Testing", "Testing"))
+            {
+                @Html.Hidden("TestID", Model.Test.Id)
+                <input class="btn btn-block btn-success btn-lg" type="submit" value="Пройти еще раз" />
+            }
+            @Html.ActionLink("Главная", "List", "Test", null, new { @class = "btn btn-block btn-default btn-lg" })
+        </div>
+    </div>
+

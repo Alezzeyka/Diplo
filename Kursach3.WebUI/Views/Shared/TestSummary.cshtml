@@ -1,35 +1,46 @@
 ﻿@model Kursach3.WebUI.Models.TestSummaryViewModel
 @if (Model.Test.ZNO == false)
 {
-    <div class="well well-sm">
-        <table class="table">
-            <tr>
-                <td style="width:150px">
-                    @Html.Raw("<img style='width:150px; height:250px;'vspace='5' hspace='5' src=\"data:image/jpeg;base64," + Convert.ToBase64String(Model.Picture.Image) + "\"/>")
-                </td>
-                <td class="text-left">
-                    <h3>
-                        <span><strong>@Model.Test.Theme</strong></span>
-                    </h3>
-                    <span class="lead">@Model.Test.Description</span>
-                </td>
-            </tr>
-        </table>
-        <p class="lead text-left">
-            @Model.Test.Category @Model.Test.Course.ToString("# класс")
-        </p>
-        @using (Html.BeginForm("Testing", "Testing"))
+    if (Model.Test.ImgId != 0)
+    {
+        <div class="well well-sm">
+            <table class="table">
+                <tr>
+                    <td style="width:150px">
+                        @Html.Raw("<img style='width:150px; height:250px;'vspace='5' hspace='5' src=\"data:image/jpeg;base64," + Convert.ToBase64String(Model.Picture.Image) + "\"/>")
+                    </td>
+                    <td class="text-left">
+                        <h3>
+                            <span><strong>@Model.Test.Theme</strong></span>
+                        </h3>
+                        <span class="lead">@Model.Test.Description</span>
+                    </td>
+                </tr>
+            </table>
+            <p class="lead text-left">
+                @Model.Test.Category @Model.Test.Course.ToString("# класс")
+            </p>
+            @using (Html.BeginForm("Testing", "Testing"))
+            {
+                @Html.Hidden("TestID", Model.Test.Id)
+                <input class="btn btn-block btn-default btn-lg" type="submit" value="Пройти" />
+            }
+        </div>
+    }
+    else
+    {
+        using (Html.BeginForm("Testing", "Testing"))
         {
             @Html.Hidden("TestID", Model.Test.Id)
-            <input class="btn btn-block btn-default btn-lg" type="submit" value="Пройти" />
+            <input class="btn btn-block btn-default btn-lg" type="submit" value="@Model.Test.Category @Model.Test.Theme @Model.Test.Course.ToString("# клас")" />
         }
-    </div>
+    }
 }
 else
 {
     using (Html.BeginForm("Testing", "Testing"))
     {
         @Html.Hidden("TestID", Model.Test.Id)
-        <input class="btn btn-block btn-default btn-lg" type="submit" value="ЗНО По истории Украины @Model.Test.Course @Model.Test.Category" />
+        <input class="btn btn-block btn-default btn-lg" type="submit" value="ЗНО з історії України @Model.Test.Course @Model.Test.Category" />
     }
 }

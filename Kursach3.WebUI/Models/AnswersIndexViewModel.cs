@@ -10,5 +10,6 @@ namespace Kursach3.WebUI.Models
     {
         public IEnumerable<Answers> Answers{get;set;}
         public int QuestionID { get; set; }
+        public int Line { get; set; }
     }
 }

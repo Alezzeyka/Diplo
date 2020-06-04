@@ -13,5 +13,6 @@ namespace Kursach3Domain.Abstract
         void SaveQuestion(Question question);
         Question DeleteQuest(int ID);
         void DeleteQuests(IEnumerable<Question> questions);
+        void SaveQuestions(IEnumerable<Question> questions); 
     }
 }

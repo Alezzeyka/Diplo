@@ -1,0 +1,32 @@
+﻿@model Kursach3.WebUI.Models.ChapterSummaryViewModel
+
+    <div class="jumbotron">
+        <p>@Model.Chapter.Text</p>
+
+        @if (Model.Chapter.ImgId != 0)
+        {
+            <div class="text-center">
+            <div class="img-thumbnail">@Html.Raw("<img vspace='5' hspace='5' src=\"data:image/jpeg;base64," + Convert.ToBase64String(Model.Picture.Image) + "\"/>")</div>
+            <div>@Model.Picture.Name</div>
+            </div>
+        }
+        @if (Model.Chapter.PdfId != 0)
+        {
+            string src = Model.PDF.FileName;
+            <div class="text-center">
+            <iframe src="~/Files/@src" width="700" height="900" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px 1px 0; margin-bottom:5px; max-width: 100%;" allowfullscreen=""> </iframe>
+            <div>@Model.PDF.Name</div>
+            </div>
+         }
+        @if (Model.Chapter.VideoId != 0)
+        {
+            string src = Model.Video.FileName;
+            <div class="text-center">
+                <video controls id="video">
+                    <source src="~/Files/@src" type="video/mp4">
+                </video>
+            <div>@Model.Video.Name</div>
+            </div>
+            
+        }
+    </div>

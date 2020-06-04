@@ -12,6 +12,7 @@ namespace Kursach3.WebUI.Models
         public int QuestId { get; set; }
         public int AnswerId { get; set; }
         public int LessId { get; set; }
+        public int ChapterId { get; set; }
         public IEnumerable<Picture> Pictures {get;set;}
     }
 }

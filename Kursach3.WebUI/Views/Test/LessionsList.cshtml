@@ -1,0 +1,25 @@
+﻿@using Kursach3.WebUI.Models
+@using Kursach3.WebUI.HtmlHelpers
+@using Kursach3Domain.Entities
+@model LessionsListViewModel
+@{
+    ViewBag.Title = "Тесты";
+    Layout = "~/Views/Shared/_LessionsLayout.cshtml";
+}
+@foreach (var p in Model.Lessions)
+{
+    LessionSummaryViewModel testSummary = new LessionSummaryViewModel
+    {
+        Lession = p
+    };
+        if (p.ImgId != 0)
+        {
+            var Picture = Model.pictures.FirstOrDefault(x => x.Id == p.ImgId);
+            testSummary.Picture = Picture;
+        }
+        @Html.Partial("LessionSummary", testSummary)
+}
+<div class="btn-group pull-right">
+    @Html.PageLinks(Model.PagingInfo, x => Url.Action("LessionList",
+        new { page = x, category = Model.CurrentCategory }))
+</div>
