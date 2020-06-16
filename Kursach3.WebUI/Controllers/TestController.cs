@@ -21,7 +21,7 @@ namespace Kursach3.WebUI.Controllers
     public class TestController : Controller
     {
         private ITestRepository repository;
-        public int pageSize = 5;
+        public int pageSize = 4;
         private IQuestionRepository questionRepository;
         private IPicturesRepository picturesRepository;
         private ILessionssRepository LessionssRepository;

@@ -84,11 +84,20 @@ namespace Kursach3.WebUI.Controllers
             test.MaxScore = QuestionRepository.Question.Where(x => x.TestID == test.Id).Sum(x => x.Score);
             TestRepository.SaveTest(test);
         }
-        public ActionResult QuestionIndex(int? ID)
+        public ActionResult QuestionIndex(int? ID,int? QId)
         {
             if (ID != null)
             {
-                TestPreview test = TestRepository.Tests.First(x => x.Id==ID);
+                TestPreview test = new TestPreview();
+                if(QId!=null)
+                {
+                    Question question = QuestionRepository.Question.First(x => x.Id == QId);
+                    test = TestRepository.Tests.First(x => x.Id == question.TestID);
+                }
+                else
+                {
+                test = TestRepository.Tests.First(x => x.Id == ID);
+                }
                 QuestionIndexViewModel questions = new QuestionIndexViewModel();
                 questions.Questions = QuestionRepository.Question.Where(x => x.TestID == ID);
                 questions.TestID = test.Id;
@@ -229,7 +238,7 @@ namespace Kursach3.WebUI.Controllers
                 }
                 CalcScore(test);
                 int Id = test.Id;
-                return RedirectToAction("QuestionIndex", Id);
+                return RedirectToAction("QuestionIndex", new { Id });
             }
         }
         [HttpPost]
@@ -243,7 +252,7 @@ namespace Kursach3.WebUI.Controllers
                 TestPreview test = TestRepository.Tests.First(x => x.Id == question.TestID);
                 CalcScore(test);
                 int Id = test.Id;
-                return RedirectToAction("QuestionIndex",Id);
+                return RedirectToAction("QuestionIndex",new { Id });
             }
             else
             {
@@ -463,14 +472,14 @@ namespace Kursach3.WebUI.Controllers
                 question.ImgId = Id;
                 QuestionRepository.SaveQuestion(question);
                 TempData["message"] = string.Format("Изменения в вопросе \"{0}\" были сохранены, вбрано изображение \"{1}\"", question.Id, Id);
-                return RedirectToAction("QuestionIndex",test.Id);
+                return RedirectToAction("QuestionIndex",new { test.Id });
             }
             catch
             {
                 Question question = QuestionRepository.Question.First(x => x.Id == QuestId);
                 TestPreview test = TestRepository.Tests.First(x => x.Id == question.TestID);
                 TempData["error"] = string.Format("Ошибка в выборе изображения");
-                return RedirectToAction("QuestionIndex", test.Id);
+                return RedirectToAction("QuestionIndex", new { test.Id });
             }
         }
         public ActionResult SetAnsPic(int AnswerId, int Id)
@@ -482,14 +491,14 @@ namespace Kursach3.WebUI.Controllers
                 answer.ImgId = Id;
                 AnswersRepository.SaveAnswer(answer);
                 TempData["message"] = string.Format("Изменения в ответе \"{0}\" были сохранены, вбрано изображение \"{1}\"", answer.Id, Id);
-                return RedirectToAction("AnswerIndex",question.Id);
+                return RedirectToAction("AnswerIndex",new { question.Id });
             }
             catch
             {
                 Answers answer = AnswersRepository.Answers.First(x => x.Id == AnswerId);
                 Question question = QuestionRepository.Question.First(x => x.Id == answer.QuestionID);
                 TempData["error"] = string.Format("Ошибка в выборе изображения");
-                return RedirectToAction("AnswerIndex", question.Id);
+                return RedirectToAction("AnswerIndex", new { question.Id });
             }
         }
         public ActionResult SetLessPic(int LessId, int Id)
@@ -636,28 +645,38 @@ namespace Kursach3.WebUI.Controllers
         [HttpPost]
         public ActionResult Upload(HttpPostedFileBase upload,string Name)
         {
-            if (upload != null)
+            try
             {
-                // получаем имя файла
-                string fileName = System.IO.Path.GetFileName(upload.FileName);
-                // сохраняем файл в папку Files в проекте
-                upload.SaveAs(Server.MapPath("~/Files/" + fileName));
-                Files file = new Files
+
+                if (upload != null)
                 {
-                    FileName = upload.FileName,
-                    FileType = upload.ContentType,
-                    Name = Name
-                };
-                string path = Server.MapPath("~/Files/" + fileName);
-                file.FilePath = path;
-                FileRepository.SaveFile(file);
-                TempData["message"] = string.Format("Файл успешно загружен");
+
+                    // получаем имя файла
+                    string fileName = System.IO.Path.GetFileName(upload.FileName);
+                    // сохраняем файл в папку Files в проекте
+                    upload.SaveAs(Server.MapPath("~/Files/" + fileName));
+                    Files file = new Files
+                    {
+                        FileName = upload.FileName,
+                        FileType = upload.ContentType,
+                        Name = Name
+                    };
+                    string path = Server.MapPath("~/Files/" + fileName);
+                    file.FilePath = path;
+                    FileRepository.SaveFile(file);
+                    TempData["message"] = string.Format("Файл успешно загружен");
+                }
+                else
+                {
+                    TempData["error"] = string.Format("Вы не выбрали файл");
+                }
+                    return RedirectToAction("FileIndex");
             }
-            else 
+            catch
             {
-                TempData["error"] = string.Format("Вы не выбрали файл");
+                TempData["error"] = string.Format("Файл слишком большой");
+                return RedirectToAction("FileIndex");
             }
-            return RedirectToAction("FileIndex");
         }
         public ActionResult DeleteFile(int ID)
         {

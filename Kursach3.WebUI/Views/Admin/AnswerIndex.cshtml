@@ -14,12 +14,12 @@
         @if (Model.Line == 0)
         {
             @Html.ActionLink("Добавить ответ", "CreateAnswer", new { Model.QuestionID }, new { @class = "btn btn-default btn-lg" });
-            @Html.ActionLink("Назад", "QuestionIndex", new { Id = Model.QuestionID }, new { @class = "btn btn-warning btn-lg" })
+            @Html.ActionLink("Назад", "QuestionIndex", new { QId = Model.QuestionID }, new { @class = "btn btn-warning btn-lg" })
         }
         else
         {
             @Html.ActionLink("Добавить ответ", "CreateAnswer", new { Model.QuestionID, Line }, new { @class = "btn btn-default btn-lg" });
-            @Html.ActionLink("Назад", "AnswerLineIndex", new { Id=Model.QuestionID}, new { @class = "btn btn-warning btn-lg" })
+            @Html.ActionLink("Назад", "AnswerLineIndex", new { QId=Model.QuestionID}, new { @class = "btn btn-warning btn-lg" })
         }
 
     </h3>
