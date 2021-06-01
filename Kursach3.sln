@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kursach3.Domain", "Kursach3
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kursach3.WebUI", "Kursach3.WebUI\Kursach3.WebUI.csproj", "{8910492B-A16C-47FA-8C78-E7F9E8A5EACA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kursach3.UnitTests", "Kursach3.UnitTests\Kursach3.UnitTests.csproj", "{7374CF00-A4B1-4FD8-A4CA-F45812CB5EFC}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{8910492B-A16C-47FA-8C78-E7F9E8A5EACA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8910492B-A16C-47FA-8C78-E7F9E8A5EACA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8910492B-A16C-47FA-8C78-E7F9E8A5EACA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7374CF00-A4B1-4FD8-A4CA-F45812CB5EFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7374CF00-A4B1-4FD8-A4CA-F45812CB5EFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7374CF00-A4B1-4FD8-A4CA-F45812CB5EFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7374CF00-A4B1-4FD8-A4CA-F45812CB5EFC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

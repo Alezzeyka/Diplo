@@ -21,7 +21,7 @@ namespace Kursach3.WebUI.Controllers
     public class TestController : Controller
     {
         private ITestRepository repository;
-        public int pageSize = 4;
+        public int pageSize = 5;
         private IQuestionRepository questionRepository;
         private IPicturesRepository picturesRepository;
         private ILessionssRepository LessionssRepository;
@@ -40,7 +40,7 @@ namespace Kursach3.WebUI.Controllers
         public ViewResult List(string category, int page=1)
         {
          
-            IEnumerable<TestPreview> testLIst = repository.Tests.Where(x => x.ZNO == false);
+            IEnumerable<TestPreview> testLIst = repository.Tests.Where(x => x.ZNO == false && x.MaxScore >0);
             TestListViewModel model = new TestListViewModel
             {
                 Tests = testLIst
@@ -54,7 +54,7 @@ namespace Kursach3.WebUI.Controllers
                     ItemsPerPage = pageSize,
                     TotalItems = category == null ?
                     repository.Tests.Count() :
-                    repository.Tests.Where(TestPreview => TestPreview.Course.ToString() == category).Count()
+                    repository.Tests.Where(TestPreview => TestPreview.Course.ToString() == category && TestPreview.MaxScore > 0).Count()
                 },
                 CurrentCategory = category,
                 pictures = picturesRepository.Pictures
@@ -64,11 +64,11 @@ namespace Kursach3.WebUI.Controllers
         public ViewResult ZNOList(string category, int page = 1)
         {
            
-            IEnumerable<TestPreview> testLIst = repository.Tests.Where(x => x.ZNO == true);
+            IEnumerable<TestPreview> testLIst = repository.Tests.Where(x => x.ZNO == true && x.MaxScore > 0);
                 TestListViewModel model = new TestListViewModel
                 {
                     Tests = testLIst
-                        .Where(p => category == null || p.Course.ToString() == category)
+                        .Where(p => category == null || p.Course.ToString() == category && p.MaxScore > 0)
                         .OrderBy(TestPreview => TestPreview.Course)
                         .Skip((page - 1) * pageSize)
                         .Take(pageSize),
@@ -78,7 +78,7 @@ namespace Kursach3.WebUI.Controllers
                         ItemsPerPage = pageSize,
                         TotalItems = category == null ?
                         repository.Tests.Count() :
-                        repository.Tests.Where(TestPreview => TestPreview.Course.ToString() == category).Count()
+                        repository.Tests.Where(TestPreview => TestPreview.Course.ToString() == category && TestPreview.MaxScore > 0).Count()
                     },
                     CurrentCategory = category,
                     pictures = picturesRepository.Pictures

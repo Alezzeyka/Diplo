@@ -114,7 +114,7 @@ namespace Kursach3.WebUI.Controllers
                 List<Answers> Line_Answers = new List<Answers>();
                  model.Test = test.Tests.First(x => x.Id == Id);
                  model.Questions = question.Question.Where(x => x.TestID == Id);
-                 foreach (var a in model.Questions)
+                foreach (var a in model.Questions)
                  {
                     if (a.MultiChoice == false)
                     {

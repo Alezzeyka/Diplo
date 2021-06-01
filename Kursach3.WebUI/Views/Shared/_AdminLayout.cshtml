@@ -24,7 +24,7 @@
         <a class="navbar-brand left" href="@Url.Action("LessIndex", "Admin")">Лекции</a>
         <a class="navbar-brand left" href="@Url.Action("FileIndex", "Admin")">Файлы</a>
     </div>
-    <div style="margin-left:10%;margin-right:10%">
+    <div class="popover-body" style="margin-left:10%;margin-right:10%;margin-bottom:50px">
         @if (TempData["message"] != null)
         {
             <div class="alert alert-success">@TempData["message"]</div>
@@ -35,7 +35,7 @@
         }
         @RenderBody()
     </div>
-    <div class="navbar navbar-fixed-bottom">
+    <div class="navbar navbar-fixed-bottom" style="height:70px">
         <div class="panel-footer">
             <div class="container">
                 <p class="navbar-text pull-right">

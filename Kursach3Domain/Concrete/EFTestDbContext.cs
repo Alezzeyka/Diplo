@@ -10,7 +10,7 @@ namespace Kursach3Domain.Concrete
 {
     public class EFTestDbContext : DbContext
     {
-        public EFTestDbContext() :base("MyTest")
+        public EFTestDbContext() :base("CybertestDB")
         {
            
         }
@@ -23,5 +23,7 @@ namespace Kursach3Domain.Concrete
         public DbSet<MultiChoice> Lines { get; set; }
         public DbSet<Files> Files { get; set; }
         public DbSet<Chapter> Chapters { get; set; }
+        public DbSet<Subject> Subjects { get; set; }
+        public DbSet<Course> Courses { get; set; }
     }
 }
