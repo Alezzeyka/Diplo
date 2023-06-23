@@ -19,7 +19,7 @@
         }
     </style>
 </head>
-<body>
+<body onload="ClicFirstTab()">
     <div class="navbar navbar-inverse" role="navigation">
         <span>
         <a class="navbar-brand text-left" style="width:100%" href="/">
@@ -71,3 +71,8 @@
     <script src="~/Scripts/bootstrap.js"></script>
 </body>
 </html>
+<script type="text/javascript">
+	function ClicFirstTab() {
+		document.getElementById("first_tab").click();
+	}
+</script>

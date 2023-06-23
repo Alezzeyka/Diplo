@@ -37,7 +37,7 @@ namespace Kursach3.WebUI.Controllers
             FileRepository = file;
             ChapterRepository = chapter;
         }
-        public ViewResult List(string category, int page=1)
+        /*public ViewResult List(string category, int page=1)
         {
          
             IEnumerable<TestPreview> testLIst = repository.Tests.Where(x => x.ZNO == false && x.MaxScore >0);
@@ -60,8 +60,8 @@ namespace Kursach3.WebUI.Controllers
                 pictures = picturesRepository.Pictures
             };
             return View(model);
-        }
-        public ViewResult ZNOList(string category, int page = 1)
+        }*/
+        public ViewResult List(string category, int page = 1)
         {
            
             IEnumerable<TestPreview> testLIst = repository.Tests.Where(x => x.ZNO == true && x.MaxScore > 0);

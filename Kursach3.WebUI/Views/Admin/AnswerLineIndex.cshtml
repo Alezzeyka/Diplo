@@ -7,14 +7,14 @@
     ViewBag.Title = "Админ панель: вопросы";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     int Delete = 1;
-    int Id = Model.QuestionID;
+    int QId = Model.QuestionID;
 }
     <h3>
         Список ответов  @Html.ActionLink("Главная", "Index", "Default", null, new { @class = "btn btn-default btn-lg" })
         @if (Model.QuestionID != 0)
         {@Html.ActionLink("Добавить линию", "CreateAnswerLine", new { Model.QuestionID }, new { @class = "btn btn-default btn-lg" })}
         @Html.ActionLink("Все линии", "AnswerLineIndex", null, new { @class = "btn btn-default btn-lg" })
-        @Html.ActionLink("Назад", "QuestionIndex", new { Id }, new { @class = "btn btn-warning btn-lg" })
+        @Html.ActionLink("Назад", "QuestionIndex", new { QId }, new { @class = "btn btn-warning btn-lg" })
     </h3>
 <div class="panel-body">
     <table class="table table-striped table-condensed table-bordered">

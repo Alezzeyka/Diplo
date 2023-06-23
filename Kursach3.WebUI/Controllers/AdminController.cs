@@ -86,22 +86,27 @@ namespace Kursach3.WebUI.Controllers
         }
         public ActionResult QuestionIndex(int? ID,int? QId)
         {
-            if (ID != null)
+            if ((ID != null) || (QId != null))
             {
                 TestPreview test = new TestPreview();
-                if(QId!=null)
+                if(QId != null)
                 {
                     Question question = QuestionRepository.Question.First(x => x.Id == QId);
                     test = TestRepository.Tests.First(x => x.Id == question.TestID);
+
+                    QuestionIndexViewModel questions = new QuestionIndexViewModel();
+                    questions.Questions = QuestionRepository.Question.Where(x => x.TestID == question.TestID);
+                    questions.TestID = test.Id;
+                    return View(questions);
                 }
                 else
                 {
-                test = TestRepository.Tests.First(x => x.Id == ID);
+                    test = TestRepository.Tests.First(x => x.Id == ID);
+                    QuestionIndexViewModel questions = new QuestionIndexViewModel();
+                    questions.Questions = QuestionRepository.Question.Where(x => x.TestID == ID);
+                    questions.TestID = test.Id;
+                    return View(questions);
                 }
-                QuestionIndexViewModel questions = new QuestionIndexViewModel();
-                questions.Questions = QuestionRepository.Question.Where(x => x.TestID == ID);
-                questions.TestID = test.Id;
-                return View(questions);
             }
             else 
             {
@@ -561,7 +566,7 @@ namespace Kursach3.WebUI.Controllers
                 return View(lessions);
             }
         }
-        public ActionResult AnswerLineIndex(int? ID)
+        public ActionResult AnswerLineIndex(int? ID, int? LineID)
         {
             if (ID != null)
             {
@@ -572,6 +577,17 @@ namespace Kursach3.WebUI.Controllers
                     QuestionID=question.Id
                 };
             return View(Lines);
+            }
+            if (LineID != null)
+            {
+                MultiChoice Line = MultiChoiceRepository.Lines.First(x=>x.Id==LineID);
+                Question question = QuestionRepository.Question.First(x => x.Id == Line.QuestionID);
+                AnswersLineIndexViewModel Lines = new AnswersLineIndexViewModel
+                {
+                    Lines = MultiChoiceRepository.Lines.Where(x => x.QuestionID == question.Id),
+                    QuestionID = question.Id
+                };
+                return View(Lines);
             }
             else
             {
